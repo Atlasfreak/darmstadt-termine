@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class DarmstadttermineConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "apps.darmstadtTermine"
+    name = "darmstadtTermine"
