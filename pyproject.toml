@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "darmstadt-termine"
+version = "0.1.0"
+description = "Scans for available appointments on the webpage of the administrative office of Darmstadt"
+authors = ["Per Göttlicher <contact@pergoet.de>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django-crispy-forms = "*"
+crispy-bootstrap4 = "*"
+django = "~=4.2"
+beautifulsoup4 = "*"
+httpx = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
