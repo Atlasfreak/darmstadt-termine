@@ -1,6 +1,6 @@
 import asyncio
 import datetime
-from asyncio import tasks
+from typing import Coroutine
 
 import httpx
 from asgiref.sync import sync_to_async
@@ -9,7 +9,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.utils import timezone
 
-from .models import Appointment, AppointmentType
+from .models import Appointment, AppointmentCategory, AppointmentType
 
 URL = (
     "https://tevis.ekom21.de/stdar/"  # Link zum Terminvergabe Tool der Stadt Darmstadt
@@ -43,9 +43,55 @@ async def add_appointment(
     await appointment.appointment_type.aadd(appointment_type)
 
 
-async def fetch_appointments(
-    appointment_category: int, appointment_type: AppointmentType
-):
+async def fetch_appointment(
+    client: httpx.AsyncClient,
+    appointment_category: int,
+    appointment_type: AppointmentType,
+) -> list[Coroutine]:
+    request = await client.post(
+        "suggest",
+        params={
+            "mdt": appointment_category,
+            f"cnc-{appointment_type.index}": 1,
+        },
+        data={
+            "loc": 43,
+            "select_location": "KFZ-Zulassungsbehörde+(Gebäude+B)+auswählen",
+        },
+    )
+    try:
+        request.raise_for_status()
+    except httpx.HTTPStatusError as e:
+        mail_admins(
+            "Fehler beim Aufruf der Terminvergabe von Darmstadt",
+            f"Der Scraper hat, beim Versuch die Termine zu ermitteln, einen Verbindungsfehler erhalten:\n{e}",
+        )
+        raise e
+    time_forms = SoupStrainer("form", attrs={"class": "suggestion_form"})
+    soup = BeautifulSoup(request.text, "html.parser", parse_only=time_forms)
+    tasks = []
+    for element in soup:
+        start_time = int(
+            element.findNext("input", attrs={"name": "start"})["value"]
+        )  # in minutes
+        end_time = int(
+            element.findNext("input", attrs={"name": "end"})["value"]
+        )  # in minutes
+        date: str = element.findNext("input", attrs={"name": "date"})[
+            "value"
+        ]  # format YYYYMMDD
+        tasks.append(
+            add_appointment(
+                start_time=datetime.time(minute=start_time % 60, hour=start_time // 60),
+                end_time=datetime.time(minute=end_time % 60, hour=end_time // 60),
+                date=datetime.datetime.strptime(date, "%Y%m%d").date(),
+                appointment_type=appointment_type,
+            )
+        )
+    return tasks
+
+
+async def fetch_appointments(appointment_category: int, appointment_types):
     """
     fetch_appointments looks for all available appointments of a specific type
 
@@ -61,50 +107,13 @@ async def fetch_appointments(
             "suggest",
             params={
                 "mdt": appointment_category,
-                f"cnc-{appointment_type.index}": 1,
+                f"cnc-{(await appointment_types.afirst()).index}": 1,
             },
         )
-        try:
-            request = await client.post(
-                "suggest",
-                params={
-                    "mdt": appointment_category,
-                    f"cnc-{appointment_type.index}": 1,
-                },
-                data={
-                    "loc": 43,
-                    "select_location": "KFZ-Zulassungsbehörde+(Gebäude+B)+auswählen",
-                },
-            )
-            request.raise_for_status()
-        except httpx.HTTPStatusError as e:
-            mail_admins(
-                "Fehler beim Aufruf der Terminvergabe von Darmstadt",
-                f"Der Scraper hat, beim Versuch die Termine zu ermitteln, einen Verbindungsfehler erhalten:\n{e}",
-            )
-            raise e
-        time_forms = SoupStrainer("form", attrs={"class": "suggestion_form"})
-        soup = BeautifulSoup(request.text, "html.parser", parse_only=time_forms)
         tasks = []
-        for element in soup:
-            start_time = int(
-                element.findNext("input", attrs={"name": "start"})["value"]
-            )  # in minutes
-            end_time = int(
-                element.findNext("input", attrs={"name": "end"})["value"]
-            )  # in minutes
-            date: str = element.findNext("input", attrs={"name": "date"})[
-                "value"
-            ]  # format YYYYMMDD
-            tasks.append(
-                add_appointment(
-                    start_time=datetime.time(
-                        minute=start_time % 60, hour=start_time // 60
-                    ),
-                    end_time=datetime.time(minute=end_time % 60, hour=end_time // 60),
-                    date=datetime.datetime.strptime(date, "%Y%m%d").date(),
-                    appointment_type=appointment_type,
-                )
+        async for appointment_type in appointment_types.aiterator():
+            tasks.extend(
+                await fetch_appointment(client, appointment_category, appointment_type)
             )
         await asyncio.gather(*tasks)
 
@@ -113,14 +122,12 @@ async def fetch_all_types():
     """
     fetch_all_types fetches appointments for all types
     """
-    appointment_types = await sync_to_async(
-        AppointmentType.objects.select_related("appointment_category").all
+    appointment_categories = await sync_to_async(
+        AppointmentCategory.objects.prefetch_related("types").all
     )()
     await asyncio.gather(
         *[
-            fetch_appointments(
-                appointment_type.appointment_category.index, appointment_type
-            )
-            async for appointment_type in appointment_types
+            fetch_appointments(appointment_category.index, appointment_category.types)
+            async for appointment_category in appointment_categories
         ]
     )
