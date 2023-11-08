@@ -1,10 +1,10 @@
 import datetime
 import secrets
 
-from django.conf import settings
 from django.utils.crypto import constant_time_compare, salted_hmac
 from django.utils.http import base36_to_int, int_to_base36
 
+from .conf import settings
 from .models import Notification
 
 
@@ -47,10 +47,9 @@ class ActivationTokenGenerator:
         else:
             return False
 
-        if self._get_current_timestamp() - timestamp > getattr(
-            settings,
-            "DARMSTADT_TERMINE_ACTIVATION_TIMEOUT",
-            172800,  # default value is two days
+        if (
+            self._get_current_timestamp() - timestamp
+            > settings.DARMSTADT_TERMINE_ACTIVATION_TIMEOUT
         ):
             return False
 
