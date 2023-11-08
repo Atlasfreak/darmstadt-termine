@@ -1,4 +1,5 @@
 import datetime
+from tabnanny import verbose
 
 from django.core import validators
 from django.db import models
@@ -25,6 +26,8 @@ class Appointment(models.Model):
 
     class Meta:
         unique_together = ["start_time", "end_time", "date", "creation_date"]
+        verbose_name = _("Termin")
+        verbose_name_plural = _("Termine")
 
     def __str__(self):
         return f"{self.date} {self.start_time}-{self.end_time}"
@@ -47,8 +50,9 @@ class Notification(models.Model):
     token_verifier = models.CharField(_("Token Verifier"), max_length=32, blank=True)
     appointment_type = models.ManyToManyField(
         "AppointmentType",
-        verbose_name=_("notifications"),
+        verbose_name=_("Anliegen"),
         related_name="notifications",
+        blank=True,
     )
     creation_date = models.DateTimeField(
         _("Erstellungsdatum"), auto_now=False, auto_now_add=True
@@ -57,7 +61,7 @@ class Notification(models.Model):
         _("Zuletzt gesendet"),
         auto_now=False,
         auto_now_add=False,
-        default=datetime.datetime(year=1970, month=1, day=1),
+        default=datetime.datetime.min,
     )
     minimum_waittime = models.DurationField(
         _("Mindest Wartezeit"),
@@ -70,6 +74,10 @@ class Notification(models.Model):
         default=datetime.timedelta(minutes=1),
     )
     active = models.BooleanField(_("Aktiviert"), default=False)
+
+    class Meta:
+        verbose_name = _("Benachrichtigung")
+        verbose_name_plural = _("Benachrichtigungen")
 
     def __str__(self):
         return self.email
@@ -93,6 +101,8 @@ class AppointmentType(models.Model):
 
     class Meta:
         unique_together = ["index", "appointment_category"]
+        verbose_name = _("Anliegen")
+        verbose_name_plural = _("Anliegen")
 
     def __str__(self):
         return self.name
@@ -107,6 +117,10 @@ class AppointmentCategory(models.Model):
 
     name = models.CharField(verbose_name=_("Bezeichnung"), max_length=256)
     index = models.PositiveIntegerField(_("Index"))
+
+    class Meta:
+        verbose_name = _("Anliegenkategorie")
+        verbose_name_plural = _("Anliegenkategorien")
 
     def __str__(self):
         return self.name
