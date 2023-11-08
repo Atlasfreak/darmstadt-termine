@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load notification_tags%}
+{% translate "Hi," %}
+
+{% translate "zum Bestätigen ihrer E-Mail Adresse und zum Einrichten ihrer Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie bitte auf folgenden Bestätigungslink:" %}
+
+{{protocol}}://{{domain}}{% url "darmstadtTermine:notification:activate" idb64=idb64 token=token%}
+
+{% blocktranslate %}Dieser Link ist aktiv für {{timeout|timedelta}}.{% endblocktranslate %}
+
+{% blocktranslate %}
+Mit freundlichen Grüßen
+Das Team von {{site_name}}
+{% endblocktranslate %}

@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load notification_tags%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Mail Adresse Bestätigen</title>
+</head>
+<body>
+    <p>
+        {% translate "Hi," %}
+    </p>
+
+    <p>
+        {% translate "zum Bestätigen ihrer E-Mail Adresse und zum Einrichten ihrer Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie bitte auf folgenden Bestätigungslink:" %}
+    </p>
+
+    <p>
+        <strong>
+            <a href="{{protocol}}://{{domain}}{% url "darmstadtTermine:notification:activate" idb64=idb64 token=token%}" target="_blank" rel="noopener noreferrer">
+                {{protocol}}://{{domain}}{% url "darmstadtTermine:notification:activate" idb64=idb64 token=token%}
+            </a>
+        </strong>
+    </p>
+
+    <p>
+        {% blocktranslate %}Dieser Link ist aktiv für {{timeout|timedelta}}.{% endblocktranslate %}
+    </p>
+
+    <p>
+        {% blocktranslate trimmed %}
+        Mit freundlichen Grüßen<br>
+        Das Team von {{site_name}}
+        {% endblocktranslate %}
+    </p>
+</body>
+</html>
