@@ -61,7 +61,7 @@ class Notification(models.Model):
         _("Zuletzt gesendet"),
         auto_now=False,
         auto_now_add=False,
-        default=datetime.datetime.min,
+        default=datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc),
     )
     minimum_waittime = models.DurationField(
         _("Mindest Wartezeit"),
