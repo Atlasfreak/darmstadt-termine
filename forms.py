@@ -60,7 +60,7 @@ class NotificationRegisterForm(forms.ModelForm):
             "idb64": urlsafe_base64_encode(force_bytes(notification.pk)),
             "token": token_generator.make_token(notification),
             "timeout": datetime.timedelta(
-                seconds=settings.DARMSTADT_TERMINE_ACTIVATION_TIMEOUT
+                seconds=settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT
             )
             ** (extra_email_context or {}),
         }
