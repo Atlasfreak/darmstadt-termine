@@ -25,14 +25,12 @@
     </p>
 
     <p>
-        {% blocktranslate %}Dieser Link ist aktiv für {{timeout|timedelta}}.{% endblocktranslate %}
+        {% blocktranslate with time=timeout|timedelta %}Dieser Link ist aktiv für {{time}}.{% endblocktranslate %}
     </p>
 
     <p>
-        {% blocktranslate trimmed %}
-        Mit freundlichen Grüßen<br>
-        Das Team von {{site_name}}
-        {% endblocktranslate %}
+        {% translate "Mit freundlichen Grüßen" %}<br>
+        {% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
     </p>
 </body>
 </html>
