@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from .models import Appointment, AppointmentCategory, AppointmentType
+from .utils.time import make_aware_no_error
 
 URL = (
     "https://tevis.ekom21.de/stdar/"  # Link zum Terminvergabe Tool der Stadt Darmstadt
@@ -36,8 +37,8 @@ async def add_appointment(
     appointment, _ = await Appointment.objects.filter(
         Q(creation_date__gt=timezone.now() - datetime.timedelta(seconds=40))
     ).aget_or_create(
-        start_time=start_time,
-        end_time=end_time,
+        start_time=make_aware_no_error(start_time),
+        end_time=make_aware_no_error(end_time),
         date=date,
     )
     await appointment.appointment_type.aadd(appointment_type)
