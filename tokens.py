@@ -49,7 +49,7 @@ class ActivationTokenGenerator:
 
         if (
             self._get_current_timestamp() - timestamp
-            > settings.DARMSTADT_TERMINE_ACTIVATION_TIMEOUT
+            > settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT
         ):
             return False
 
