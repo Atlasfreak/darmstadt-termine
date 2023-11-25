@@ -1,5 +1,4 @@
 import datetime
-from tabnanny import verbose
 
 from django.core import validators
 from django.db import models
@@ -43,11 +42,15 @@ class Notification(models.Model):
     minimum_waitime is the minimum time to wait before sending another notification in order not to spam the user.
     """
 
-    email = models.EmailField(_("E-Mail"), max_length=254)
+    email = models.EmailField(_("E-Mail"), max_length=254, unique=True)
+    language = models.CharField(
+        _("Sprache"),
+        max_length=10,
+    )
     token_selector = models.CharField(
         _("Token Selector"), max_length=32, unique=True, blank=True, null=True
     )
-    token_verifier = models.CharField(_("Token Verifier"), max_length=32, blank=True)
+    token_verifier = models.CharField(_("Token Verifier"), max_length=64, blank=True)
     appointment_type = models.ManyToManyField(
         "AppointmentType",
         verbose_name=_("Anliegen"),
@@ -71,7 +74,7 @@ class Notification(models.Model):
                 _("Die Wartezeit muss mindestens 1 Minute betragen."),
             )
         ],
-        default=datetime.timedelta(minutes=1),
+        default=datetime.timedelta(minutes=5),
     )
     active = models.BooleanField(_("Aktiviert"), default=False)
 
@@ -92,6 +95,7 @@ class AppointmentType(models.Model):
 
     name = models.CharField(verbose_name=_("Bezeichnung"), max_length=256)
     index = models.PositiveIntegerField(_("Index"))
+    active = models.BooleanField(_("Aktiviert"), default=True)
     appointment_category = models.ForeignKey(
         "AppointmentCategory",
         on_delete=models.CASCADE,
