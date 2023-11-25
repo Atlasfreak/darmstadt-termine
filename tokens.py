@@ -8,11 +8,23 @@ from .conf import settings
 from .models import Notification
 
 
-class ActivationTokenGenerator:
+class OneTimeTokenGenerator:
+    """
+    Object used to generate and check one time tokens.
+    Used as activation, deletion and reset tokens.
+    """
+
     hash_algorithm = "sha3_256"
-    key_salt = "darmstadtTermine.tokens.ActivationTokenGenerator"
+    key_salt = "darmstadtTermine.tokens.OneTimeTokenGenerator"
     secret = settings.SECRET_KEY
     secret_fallbacks = settings.SECRET_KEY_FALLBACKS
+
+    def __init__(self, timeout: int, action: str) -> None:
+        """
+        Initialize the token Generator with timeout and
+        """
+        self.timeout = timeout
+        self.action = action
 
     def make_token(self, notification: Notification):
         """
@@ -47,10 +59,7 @@ class ActivationTokenGenerator:
         else:
             return False
 
-        if (
-            self._get_current_timestamp() - timestamp
-            > settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT
-        ):
+        if self._get_current_timestamp() - timestamp > self.timeout:
             return False
 
         return True
@@ -60,7 +69,7 @@ class ActivationTokenGenerator:
     ):
         timestamp_bs36 = int_to_base36(timestamp)
         hash_string = salted_hmac(
-            self.key_salt,
+            f"{self.key_salt}{self.action}",
             self._make_hash_value(notification, timestamp),
             secret=secret,
             algorithm=self.hash_algorithm,
@@ -69,18 +78,21 @@ class ActivationTokenGenerator:
 
     def _make_hash_value(self, notification: Notification, timestamp: int):
         """
-        _make_hash_value hash the email address, creation_date and current timestamp.
-        Also hash the active state, as this will change after activation.
+        hash the notifications primary key and email address.
+        Also hash some values that are very likely to change to make a token that is invalid after use:
+        1. The active state will change when the notification is activated, makes it useful for activation tokens
+        2. The token_verifier will change when it is reset or when activated
+        3. The last_sent timestamp will change when a notification email is sent
+
+        The token will always be invalidated after self.timeout seconds.
 
         Returns:
             str: the value to hash
         """
-        creation_timestamp = notification.creation_date.replace(
+        last_sent_timestamp = notification.last_sent.replace(
             microsecond=0, tzinfo=None
         ).timestamp()
-        return (
-            f"{notification.email}{notification.active}{creation_timestamp}{timestamp}"
-        )
+        return f"{notification.pk}{notification.email}{notification.active}{notification.token_verifier or ''}{last_sent_timestamp}{timestamp}"
 
     def _get_current_timestamp(self):
         """
@@ -152,6 +164,7 @@ class AccessTokenGenerator:
         ).hexdigest()
 
 
-default_activation_token_generator = ActivationTokenGenerator()
-
+default_activation_token_generator = OneTimeTokenGenerator(
+    settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT, "activate"
+)
 default_access_token_generator = AccessTokenGenerator()
