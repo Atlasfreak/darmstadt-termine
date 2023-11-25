@@ -1,4 +1,4 @@
-{% load i18n %}{% load notification_tags%}{% autoescape off %}
+{% load i18n %}{% load notification_tags%}{% autoescape off %}{% language email_language %}
 {% translate "Hi," %}
 
 {% translate "zum Bestätigen ihrer E-Mail Adresse und zum Einrichten ihrer Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie bitte auf folgenden Bestätigungslink:" %}
@@ -9,4 +9,4 @@
 
 {% translate "Mit freundlichen Grüßen" %}
 {% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
-{% endautoescape %}
+{% endlanguage %}{% endautoescape %}
