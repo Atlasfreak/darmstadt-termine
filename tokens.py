@@ -102,6 +102,11 @@ class OneTimeTokenGenerator:
 
 
 class AccessTokenGenerator:
+    """
+    Object to generate and check split access tokens.
+    Directly saves the selector and verifier to the database.
+    """
+
     hash_algorithm = "sha3_256"
     key_salt = "darmstadtTermine.tokens.AccessTokenGenerator"
     secret = settings.SECRET_KEY
@@ -113,10 +118,13 @@ class AccessTokenGenerator:
 
         Throws a RuntimeError when it fails 128 times to create a selector without collision.
         """
-        selector = secrets.token_urlsafe(16)
         iteration = 0
-        while Notification.objects.get(token_selector=selector) and iteration < 128:
-            selector = secrets.token_urlsafe(16)
+        while (
+            Notification.objects.filter(
+                token_selector=(selector := secrets.token_urlsafe(16))
+            ).exists()
+            and iteration < 128
+        ):
             iteration += 1
 
         if iteration >= 128:
@@ -129,36 +137,37 @@ class AccessTokenGenerator:
         notification.token_verifier = verifier_hashed
         notification.save()
 
-        return f"{selector}-{verifier}"
+        return f"{selector}~{verifier}"
 
-    def check_token(self, notification: Notification, token: str):
+    def check_token(self, token: str):
         """
-        Check that the access token is correct for the given notification
+        Check that the access token is correct and return the notification if it is
         """
-        if not (notification and token):
+        if not token:
             return False
 
         try:
-            selector, verifier = token.split("-")
+            selector, verifier = token.split("~")
         except ValueError:
             return False
 
-        verifier_hash_query = Notification.objects.get(token_selector=selector)
-        if not verifier_hash_query:
+        try:
+            notification = Notification.objects.get(token_selector=selector)
+        except Notification.DoesNotExist:
             return False
 
         for secret in [self.secret, *self.secret_fallbacks]:
             if constant_time_compare(
-                verifier_hash_query.token_verifier,
+                notification.token_verifier,
                 self._make_verifier_hash(verifier, secret),
             ):
                 break
         else:
             return False
 
-        return True
+        return notification
 
-    def _make_verifier_hash(self, verifier, secret):
+    def _make_verifier_hash(self, verifier: str, secret: str):
         return salted_hmac(
             self.key_salt, verifier, algorithm=self.hash_algorithm, secret=secret
         ).hexdigest()
