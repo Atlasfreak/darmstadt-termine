@@ -9,6 +9,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
 from .conf import settings
+from .fields import GroupedModelChoiceField
 from .models import AppointmentType, Notification
 from .tokens import (
     notification_access_token_generator,
@@ -69,3 +70,21 @@ class NotificationRegisterForm(forms.ModelForm):
         ).send()
 
         return notification
+
+
+class NotificationEditForm(forms.ModelForm):
+    class Meta:
+        model = Notification
+        fields = ("language", "appointment_type", "minimum_waittime")
+
+    appointment_type = GroupedModelChoiceField(
+        queryset=AppointmentType.objects.all(),
+        choices_groupby="appointment_category",
+        label=Meta.model._meta.get_field("appointment_type").verbose_name,
+    )
+
+    language = forms.ChoiceField(
+        label=Meta.model._meta.get_field("language").verbose_name,
+        choices=settings.DARMSTADTTERMINE_AVAILABLE_LANGUAGES,
+        required=True,
+    )
