@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 django-crispy-forms = "*"
-crispy-bootstrap4 = "*"
+crispy-bootstrap5 = "*"
 django = "~=4.2"
 beautifulsoup4 = "*"
 httpx = "*"
@@ -19,3 +19,6 @@ django-appconf = "*"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
