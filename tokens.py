@@ -89,9 +89,7 @@ class OneTimeTokenGenerator:
         Returns:
             str: the value to hash
         """
-        last_sent_timestamp = notification.last_sent.replace(
-            microsecond=0, tzinfo=None
-        ).timestamp()
+        last_sent_timestamp = notification.last_sent.replace(microsecond=0, tzinfo=None)
         return f"{notification.pk}{notification.email}{notification.active}{notification.token_verifier or ''}{last_sent_timestamp}{timestamp}"
 
     def _get_current_timestamp(self):
