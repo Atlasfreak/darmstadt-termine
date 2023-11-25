@@ -173,7 +173,7 @@ class AccessTokenGenerator:
         ).hexdigest()
 
 
-default_activation_token_generator = OneTimeTokenGenerator(
+notification_activation_token_generator = OneTimeTokenGenerator(
     settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT, "activate"
 )
-default_access_token_generator = AccessTokenGenerator()
+notification_access_token_generator = AccessTokenGenerator()
