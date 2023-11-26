@@ -33,13 +33,13 @@ def create_notification_email_message(
 
 def create_template_mail(
     subject,
-    txt_email_template_name,
+    txt_email_template,
     html_email_template,
     context,
     from_email,
     to_email,
 ):
-    text_body = loader.render_to_string(txt_email_template_name, context)
+    text_body = loader.render_to_string(txt_email_template, context)
     html_body = loader.render_to_string(html_email_template, context)
     email_message = mail.EmailMultiAlternatives(
         subject, text_body, from_email, [to_email]
