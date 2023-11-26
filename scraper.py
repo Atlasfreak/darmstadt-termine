@@ -56,8 +56,8 @@ async def fetch_appointment(
             f"cnc-{appointment_type.index}": 1,
         },
         data={
-            "loc": 43,
-            "select_location": "KFZ-Zulassungsbehörde+(Gebäude+B)+auswählen",
+            "loc": 42,
+            "select_location": "Bürger-+und+Ordnungsamt+(Luisencenter)+auswählen",
         },
     )
     try:
@@ -68,9 +68,11 @@ async def fetch_appointment(
             f"Der Scraper hat, beim Versuch die Termine zu ermitteln, einen Verbindungsfehler erhalten:\n{e}",
         )
         raise e
+
     time_forms = SoupStrainer("form", attrs={"class": "suggestion_form"})
     soup = BeautifulSoup(request.text, "html.parser", parse_only=time_forms)
     tasks = []
+
     for element in soup:
         start_time = int(
             element.findNext("input", attrs={"name": "start"})["value"]
@@ -100,10 +102,12 @@ async def fetch_appointments(appointment_category: int, appointment_types):
         appointment_category (int): the appointment category index used in the url
         appointment_type (int): the appointment type index used in the url
     """
+    if await appointment_types.acount() == 0:
+        return
     async with httpx.AsyncClient(
         base_url=URL, headers={"user-agent": "Termin-Scraper/1.0"}, max_redirects=50
     ) as client:
-        await client.get("select2", params={"md": 5})
+        await client.get("select2", params={"md": 4})
         await client.get(
             "suggest",
             params={
@@ -116,6 +120,7 @@ async def fetch_appointments(appointment_category: int, appointment_types):
             tasks.extend(
                 await fetch_appointment(client, appointment_category, appointment_type)
             )
+
         await asyncio.gather(*tasks)
 
 
@@ -128,7 +133,10 @@ async def fetch_all_types():
     )()
     await asyncio.gather(
         *[
-            fetch_appointments(appointment_category.index, appointment_category.types)
+            fetch_appointments(
+                appointment_category.index,
+                appointment_category.types.filter(active=True),
+            )
             async for appointment_category in appointment_categories
         ]
     )
