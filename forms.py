@@ -22,12 +22,18 @@ from .utils.site import get_site_name_domain
 class NotificationRegisterForm(forms.ModelForm):
     class Meta:
         model = Notification
-        fields = ("email", "language")
+        fields = ("email", "language", "appointment_type", "minimum_waittime")
 
     language = forms.ChoiceField(
         label=Meta.model._meta.get_field("language").verbose_name,
         choices=settings.DARMSTADTTERMINE_AVAILABLE_LANGUAGES,
         required=True,
+    )
+
+    appointment_type = GroupedModelChoiceField(
+        queryset=AppointmentType.objects.all(),
+        choices_groupby="appointment_category",
+        label=_("Zu überwachende Anliegen"),
     )
 
     def save(
@@ -80,7 +86,7 @@ class NotificationEditForm(forms.ModelForm):
     appointment_type = GroupedModelChoiceField(
         queryset=AppointmentType.objects.all(),
         choices_groupby="appointment_category",
-        label=Meta.model._meta.get_field("appointment_type").verbose_name,
+        label=_("Zu überwachende Anliegen"),
     )
 
     language = forms.ChoiceField(
