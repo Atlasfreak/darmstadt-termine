@@ -1,0 +1,7 @@
+{% load i18n %}
+<p>
+    {% translate "Mit folgendem Link können Sie sich von weiteren Benachrichtigungen abmelden:" %}
+</p>
+<p>
+    <a href="{{protocol}}://{{domain}}{% url "darmstadtTermine:delete" idb64=idb64 token=token %}" target="_blank" rel="noopener noreferrer">{{protocol}}://{{domain}}{% url "darmstadtTermine:delete" idb64=idb64 token=token %}</a>
+</p>
