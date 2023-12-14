@@ -1,0 +1,18 @@
+{% load i18n %}{% autoescape off %}{% language email_language %}
+{% blocktranslate %}Es gibt {{appointments_count}} neue Termine bei der Stadt Darmstadt!{% endblocktranslate %}
+
+{% translate "Liste der Termine nach Anliegen sortiert:" %}
+{% for appointment_category in appointment_categories_list %}
+{{appointment_category.name}}:
+    {% for appointment_type in appointment_category.types %}
+    {{appointment_type.name}}:
+        {% for appointment in appointment_type.appointments %}{{appointment.date}}, {% translate "Anzahl der Termine:" %} {{appointment.date_count}}{% endfor %}
+    {% endfor %}
+{% endfor %}
+
+{% translate "Wenn Sie einen Termin vereinbaren möchten, folgen Sie bitte diesem Link:" %}
+https://tevis.ekom21.de/stdar/
+
+{% translate "Diese E-Mail wurde automatisch generiert." %}
+{% include "darmstadtTermine/include/delete_url.txt" with idb64=idb64 token=delete_token protocol=protocol domain=domain %}
+{% endlanguage %}{% endautoescape %}
