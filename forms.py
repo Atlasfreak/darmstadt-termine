@@ -14,6 +14,8 @@ from .models import AppointmentType, Notification
 from .tokens import (
     notification_access_token_generator,
     notification_activation_token_generator,
+    notification_delete_token_generator,
+    notification_reset_token_generator,
 )
 from .utils.email import create_template_mail
 from .utils.site import get_site_name_domain
@@ -94,3 +96,54 @@ class NotificationEditForm(forms.ModelForm):
         choices=settings.DARMSTADTTERMINE_AVAILABLE_LANGUAGES,
         required=True,
     )
+
+
+class NotificationResetForm(forms.Form):
+    email_adress = forms.EmailField(label=_("Email"))
+
+    def save(
+        self,
+        token_generator=notification_reset_token_generator,
+        txt_email_template="darmstadtTermine/email/reset_email_body.txt",
+        html_email_template="darmstadtTermine/email/reset_email_body.html",
+        from_email=None,
+        request=None,
+        use_https=True,
+        extra_email_context=None,
+    ) -> None:
+        email = self.cleaned_data["email_adress"]
+
+        site_name, domain = get_site_name_domain(request)
+
+        try:
+            notification = Notification.objects.get(email=email)
+        except Notification.DoesNotExist:
+            return
+
+        context = {
+            "domain": domain,
+            "site_name": site_name,
+            "protocol": "https" if use_https else "http",
+            "idb64": urlsafe_base64_encode(force_bytes(notification.pk)),
+            "token": token_generator.make_token(notification),
+            "delete_token": notification_delete_token_generator.make_token(
+                notification
+            ),
+            "timeout": datetime.timedelta(
+                seconds=settings.DARMSTADTTERMINE_RESET_TIMEOUT
+            ),
+            "email_language": notification.language,
+            **(extra_email_context or {}),
+        }
+
+        create_template_mail(
+            _(
+                "Benachrichtigungszugang auf %(site)s zurücksetzen"
+                % {"site": site_name}
+            ),
+            txt_email_template,
+            html_email_template,
+            context,
+            from_email,
+            notification.email,
+        ).send()
