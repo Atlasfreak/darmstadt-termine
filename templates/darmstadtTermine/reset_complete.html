@@ -1,0 +1,7 @@
+{% extends "darmstadtTermine/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+<p>{% translate "Ihre Benachrichtigung wurde erfolgreich zurückgesetzt!" %}</p>
+{% include "darmstadtTermine/include/edit_url.html" with token=token protocol=protocol domain=domain %}
+{% endblock content %}
