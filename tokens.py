@@ -175,3 +175,9 @@ notification_activation_token_generator = OneTimeTokenGenerator(
     settings.DARMSTADTTERMINE_ACTIVATION_TIMEOUT, "activate"
 )
 notification_access_token_generator = AccessTokenGenerator()
+notification_delete_token_generator = OneTimeTokenGenerator(
+    settings.DARMSTADTTERMINE_DELETION_TIMEOUT, "delete"
+)
+notification_reset_token_generator = OneTimeTokenGenerator(
+    settings.DARMSTADTTERMINE_RESET_TIMEOUT, "reset"
+)
