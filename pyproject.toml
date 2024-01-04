@@ -17,9 +17,19 @@ django-appconf = "*"
 lxml = "*"
 
 
+[tool.poetry.group.dev.dependencies]
+django-extensions = "*"
+yappi = "*"
+djlint = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.isort]
 profile = "black"
+
+[tool.djlint]
+use_gitignore = true
+profile = "django"
+ignore = "H030,H031,H029,H005"
