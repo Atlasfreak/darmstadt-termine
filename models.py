@@ -128,3 +128,19 @@ class AppointmentCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ScraperRun(models.Model):
+    """
+    ScraperRun stores the start and end time of a scraper run.
+    """
+
+    start_time = models.DateTimeField(_("Startzeit"), auto_now_add=True)
+    end_time = models.DateTimeField(_("Endzeit"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Scraperlauf")
+        verbose_name_plural = _("Scraperläufe")
+
+    def __str__(self):
+        return f"{self.start_time} - {self.end_time}"
