@@ -9,7 +9,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.utils import timezone
 
-from .models import Appointment, AppointmentCategory, AppointmentType
+from .models import Appointment, AppointmentCategory, AppointmentType, ScraperRun
 from .utils.time import make_aware_no_error
 
 URL = (
@@ -131,6 +131,8 @@ async def fetch_all_types():
     appointment_categories = await sync_to_async(
         AppointmentCategory.objects.prefetch_related("types").all
     )()
+    scraper_run = ScraperRun()
+    await scraper_run.asave()
     await asyncio.gather(
         *[
             fetch_appointments(
@@ -140,3 +142,4 @@ async def fetch_all_types():
             async for appointment_category in appointment_categories
         ]
     )
+    await scraper_run.asave()
