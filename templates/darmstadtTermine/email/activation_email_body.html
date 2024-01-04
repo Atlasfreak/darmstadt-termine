@@ -1,41 +1,34 @@
 {% load i18n %}
-{% load notification_tags%}
+{% load notification_tags %}
 {% language email_language %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Mail Adresse Bestätigen</title>
-</head>
-<body>
-    <p>
-        {% translate "Hi," %}
-    </p>
-
-    <p>
-        {% translate "zum Bestätigen Ihrer E-Mail Adresse und zum Einrichten Ihrer Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie bitte auf folgenden Bestätigungslink:" %}
-    </p>
-
-    <p>
-        <strong>
-            <a href="{{protocol}}://{{domain}}{% url "darmstadtTermine:activate" idb64=idb64 token=token%}" target="_blank" rel="noopener noreferrer">
-                {{protocol}}://{{domain}}{% url "darmstadtTermine:activate" idb64=idb64 token=token%}
-            </a>
-        </strong>
-    </p>
-
-    <p>
-        {% blocktranslate with time=timeout|timedelta %}Dieser Link ist aktiv für {{time}}.{% endblocktranslate %}
-    </p>
-
-    <p>
-        {% translate "Mit freundlichen Grüßen" %}<br>
-        {% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
-    </p>
-    <p>
-        {% translate "Sollten Sie diese E-Mail nicht angefordert haben, können Sie diese einfach ignorieren." %}
-    </p>
-</body>
-</html>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>E-Mail Adresse Bestätigen</title>
+        </head>
+        <body>
+            <p>{% translate "Hi," %}</p>
+            <p>
+                {% translate "zum Bestätigen Ihrer E-Mail Adresse und zum Einrichten Ihrer Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie bitte auf folgenden Bestätigungslink:" %}
+            </p>
+            <p>
+                <strong>
+                    <a href="{{ protocol }}://{{ domain }}{% url "darmstadtTermine:activate" idb64=idb64 token=token %}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        {{ protocol }}://{{ domain }}{% url "darmstadtTermine:activate" idb64=idb64 token=token %}
+                    </a>
+                </strong>
+            </p>
+            <p>{% blocktranslate with time=timeout|timedelta %}Dieser Link ist aktiv für {{time}}.{% endblocktranslate %}</p>
+            <p>
+                {% translate "Mit freundlichen Grüßen" %}
+                <br>
+                {% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
+            </p>
+            <p>{% translate "Sollten Sie diese E-Mail nicht angefordert haben, können Sie diese einfach ignorieren." %}</p>
+        </body>
+    </html>
 {% endlanguage %}
