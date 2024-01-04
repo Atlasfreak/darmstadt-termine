@@ -14,6 +14,7 @@ django = "~=4.2"
 beautifulsoup4 = "*"
 httpx = "*"
 django-appconf = "*"
+lxml = "*"
 
 
 [build-system]

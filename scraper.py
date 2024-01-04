@@ -70,7 +70,7 @@ async def fetch_appointment(
         raise e
 
     time_forms = SoupStrainer("form", attrs={"class": "suggestion_form"})
-    soup = BeautifulSoup(request.text, "html.parser", parse_only=time_forms)
+    soup = BeautifulSoup(request.text, "lxml", parse_only=time_forms)
     tasks = []
 
     for element in soup:
