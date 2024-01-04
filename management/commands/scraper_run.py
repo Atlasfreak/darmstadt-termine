@@ -1,4 +1,5 @@
 import asyncio
+import re
 from cProfile import Profile
 
 from django.core.management.base import BaseCommand
@@ -14,9 +15,17 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options.get("profile", False):
-            profiler = Profile()
-            profiler.runcall(self._handle, *args, **options)
-            profiler.dump_stats("scraper_run.prof")
+            try:
+                import yappi
+            except ImportError:
+                print(
+                    "yappi is not installed, please install it to use the --profile option"
+                )
+                return
+            yappi.set_clock_type("CPU")
+            with yappi.run():
+                self._handle(*args, **options)
+            yappi.get_func_stats().save("scraper_run.prof", type="callgrind")
         else:
             self._handle(*args, **options)
 
