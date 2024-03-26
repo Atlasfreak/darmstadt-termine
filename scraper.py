@@ -50,7 +50,7 @@ async def fetch_appointment(
     appointment_type: AppointmentType,
 ) -> list[Coroutine]:
     request = await client.post(
-        "suggest",
+        "location",
         params={
             "mdt": appointment_category,
             f"cnc-{appointment_type.index}": 1,
@@ -59,6 +59,7 @@ async def fetch_appointment(
             "loc": 42,
             "select_location": "Bürger-+und+Ordnungsamt+(Luisencenter)+auswählen",
         },
+        follow_redirects=True,
     )
     try:
         request.raise_for_status()
@@ -109,7 +110,7 @@ async def fetch_appointments(appointment_category: int, appointment_types):
     ) as client:
         await client.get("select2", params={"md": 4})
         await client.get(
-            "suggest",
+            "location",
             params={
                 "mdt": appointment_category,
                 f"cnc-{(await appointment_types.afirst()).index}": 1,
