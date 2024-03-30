@@ -75,15 +75,22 @@ async def fetch_appointment(
     tasks = []
 
     for element in soup:
-        start_time = int(
-            element.findNext("input", attrs={"name": "start"})["value"]
-        )  # in minutes
-        end_time = int(
-            element.findNext("input", attrs={"name": "end"})["value"]
-        )  # in minutes
-        date: str = element.findNext("input", attrs={"name": "date"})[
-            "value"
-        ]  # format YYYYMMDD
+        try:
+            start_time = int(
+                element.findNext("input", attrs={"name": "start"})["value"]
+            )  # in minutes
+            end_time = int(
+                element.findNext("input", attrs={"name": "end"})["value"]
+            )  # in minutes
+            date: str = element.findNext("input", attrs={"name": "date"})[
+                "value"
+            ]  # format YYYYMMDD
+        except TypeError:
+            mail_admins(
+                "Fehler beim Parsen der Termine",
+                f"Das nachfolgende Terminelement konnte nicht geparst werden.\n{element}\nSoup:\n{soup}\nAnfragetext:\n{request.text}",
+            )
+            continue
         tasks.append(
             add_appointment(
                 start_time=datetime.time(minute=start_time % 60, hour=start_time // 60),
