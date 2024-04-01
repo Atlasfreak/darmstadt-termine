@@ -2,11 +2,13 @@
 {% blocktranslate %}Es gibt {{appointments_count}} neue Termine bei der Stadt Darmstadt!{% endblocktranslate %}
 
 {% translate "Liste der Termine nach Anliegen sortiert:" %}
-{% for appointment_category in appointment_categories_list %}
-{{appointment_category.name}}:
-    {% for appointment_type in appointment_category.types %}
-    {{appointment_type.name}}:
-        {% for appointment in appointment_type.appointments %}{{appointment.date}}, {% translate "Anzahl der Termine:" %} {{appointment.date_count}}{% endfor %}
+{% regroup appointment_types_list by appointment_category as appointment_categories_list %}{% for appointment_category in appointment_categories_list %}
+{{appointment_category.grouper}}:
+    {% for appointment_type in appointment_category.list %}
+    {{appointment_type.name}}:{% regroup appointment_type.appointments by date as date_list %}
+        {% for date in date_list %}
+        {{date.grouper}}, {% translate "Anzahl der Termine:" %} {{date.list|length}}
+        {% endfor %}
     {% endfor %}
 {% endfor %}
 
