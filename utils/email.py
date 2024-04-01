@@ -85,3 +85,72 @@ def create_template_mail(
     email_message.attach_alternative(html_body, "text/html")
 
     return email_message
+
+
+def create_notification_email_message_for_new_appointments(
+    notification: Notification,
+    last_scraper_run: ScraperRun,
+    last_found_appointments: set[AppointmentTuple],
+    new_appointments: set[AppointmentTuple],
+    protocol: str,
+) -> None | mail.EmailMultiAlternatives:
+    """
+    create_notification_email_message_for_new_appointments creates an email message for a notification with the correct appointments
+
+    Args:
+        notification (Notification): the notification to create the email for
+        last_scraper_run (ScraperRun): the last scraper run
+        last_found_appointments (set[AppointmentTuple]): the appointments found in the last scraper run
+        new_appointments (set[AppointmentTuple]): the new appointments found in the last scraper run
+        protocol (str): the protocol to use for the links
+
+    Returns:
+        None | mail.EmailMultiAlternatives: the email message or None if no new appointments were found
+    """
+    appointment_types = notification.appointment_type.all()
+
+    try:
+        last_sent_scraper_run = ScraperRun.objects.filter(
+            end_time__lt=notification.last_sent
+        ).latest("start_time")
+
+        if last_sent_scraper_run == last_scraper_run:
+            return None
+
+        last_sent_appointments = set(
+            Appointment.objects.filter(
+                creation_date__gte=last_sent_scraper_run.start_time,
+                creation_date__lte=last_sent_scraper_run.end_time,
+                appointment_type__in=appointment_types,
+                *APPOINTMENT_TIME_FILTER
+            )
+            .values_list(
+                "start_time", "end_time", "date", "appointment_type", named=True
+            )
+            .distinct()
+        )
+
+        appointments_to_send = (
+            last_found_appointments - last_sent_appointments
+        ) | new_appointments
+    except ScraperRun.DoesNotExist:
+        appointments_to_send = last_found_appointments
+
+    if len(appointments_to_send) <= 0:
+        return None
+
+    appointments_to_send = sorted(
+        list(appointments_to_send), key=lambda x: x.start_time
+    )
+    appointments_to_send.sort(key=lambda x: x.date)
+
+    appointment_types_list = create_appointment_type_list_from_list(
+        appointments_to_send, appointment_types.values_list("pk", flat=True)
+    )
+
+    return create_notification_email_message(
+        protocol,
+        notification,
+        len(appointments_to_send),
+        appointment_types_list,
+    )
