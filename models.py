@@ -22,6 +22,13 @@ class Appointment(models.Model):
         related_name="appointments",
         verbose_name=_("Termine"),
     )
+    location = models.ForeignKey(
+        "Location",
+        verbose_name=_("Ort"),
+        on_delete=models.CASCADE,
+        related_name="appointments",
+        null=True,
+    )
 
     class Meta:
         unique_together = ["start_time", "end_time", "date", "creation_date"]
@@ -103,7 +110,9 @@ class AppointmentType(models.Model):
         verbose_name=_("Kategorie"),
         related_name="types",
     )
-    location = models.ManyToManyField("Location", verbose_name=_("Ort"))
+    location = models.ManyToManyField(
+        "Location", verbose_name=_("Ort"), related_name="appointment_types"
+    )
 
     class Meta:
         unique_together = ["index", "appointment_category"]
@@ -125,7 +134,11 @@ class AppointmentCategory(models.Model):
     name = models.CharField(verbose_name=_("Bezeichnung"), max_length=256)
     index = models.PositiveIntegerField(_("Index"))
     department = models.ForeignKey(
-        "Department", verbose_name=_("Abteilung"), on_delete=models.CASCADE
+        "Department",
+        verbose_name=_("Abteilung"),
+        on_delete=models.CASCADE,
+        related_name="appointment_categories",
+        null=True,
     )
 
     class Meta:
