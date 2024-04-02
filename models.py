@@ -90,6 +90,7 @@ class AppointmentType(models.Model):
     """
     AppointmentType stores the name of a appointment type and the related :model:`darmstadtTermine.AppointmentCategory`.
     Index is the assinged Index(?) on the website.
+    It also stores the :model:`darmstadtTermine.Location`s where the appointment can be made.
     An AppointmentType is for exmaple "Antrag Reisepass".
     """
 
@@ -102,6 +103,7 @@ class AppointmentType(models.Model):
         verbose_name=_("Kategorie"),
         related_name="types",
     )
+    location = models.ManyToManyField("Location", verbose_name=_("Ort"))
 
     class Meta:
         unique_together = ["index", "appointment_category"]
@@ -116,11 +118,15 @@ class AppointmentCategory(models.Model):
     """
     AppointmentCategory stores the name of a appointment category.
     Index is the assinged Index(?) on the website.
+    It also stores which :model:`darmstadtTermine.Department` it belongs to.
     Am AppointmentCategory is for example "Passwesen".
     """
 
     name = models.CharField(verbose_name=_("Bezeichnung"), max_length=256)
     index = models.PositiveIntegerField(_("Index"))
+    department = models.ForeignKey(
+        "Department", verbose_name=_("Abteilung"), on_delete=models.CASCADE
+    )
 
     class Meta:
         verbose_name = _("Anliegenkategorie")
@@ -144,3 +150,41 @@ class ScraperRun(models.Model):
 
     def __str__(self):
         return f"{self.start_time} - {self.end_time}"
+
+
+class Location(models.Model):
+    """
+    Location stores the name, descriptor and id of a location where appointments can be made.
+    The name is a human readable name such as "Bürger- und Ordnungsamt Darmstadt".
+    The descriptor is the name that is used in the "select_location" POST variable, for example "Bürger-+und+Ordnungsamt+(Luisencenter)+auswählen".
+    The id is the id of the location on the website used in the "loc" POST variable.
+    """
+
+    name = models.CharField(_("Name"), max_length=256)
+    descriptor = models.CharField(_("Von der API genutzter Name"), max_length=256)
+    index = models.PositiveIntegerField(_("API ID"), unique=True)
+
+    class Meta:
+        verbose_name = _("Standort")
+        verbose_name_plural = _("Standorte")
+
+    def __str__(self):
+        return self.name
+
+
+class Department(models.Model):
+    """
+    Department stores the name and id of a department which provides some appointment types.
+    The name is a human readable name such as "Zulassungsbehörde".
+    The id is the id of the department on the website used in the "md" GET parameter.
+    """
+
+    name = models.CharField(_("Name"), max_length=256)
+    index = models.PositiveIntegerField(_("API ID"), unique=True)
+
+    class Meta:
+        verbose_name = _("Abteilung")
+        verbose_name_plural = _("Abteilungen")
+
+    def __str__(self) -> str:
+        return self.name
