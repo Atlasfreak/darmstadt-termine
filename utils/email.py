@@ -36,7 +36,7 @@ def create_notification_email_message(
     site_name, domain = get_site_name_domain()
     context = {
         "appointments_count": appointments_count,
-        "appointment_categories_list": appointment_categories_list,
+        "appointment_types_list": appointment_types_list,
         "site_name": site_name,
         "domain": domain,
         "protocol": protocol,
