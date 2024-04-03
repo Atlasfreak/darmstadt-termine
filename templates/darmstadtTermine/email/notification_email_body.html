@@ -29,7 +29,9 @@
             {% regroup appointment_types_list by appointment_category as appointemnt_categories_list %}
             {% for appointment_category in appointment_categories_list %}
                 <p>{{ appointment_category.grouper }}:</p>
+                {# djlint:off H021 #}
                 <div style="margin-left: 20px">
+                    {# djlint:on #}
                     {% for appointment_type in appointment_category.list %}
                         <p>{{ appointment_type.name }}:</p>
                         <table>
