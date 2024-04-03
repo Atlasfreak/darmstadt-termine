@@ -63,7 +63,7 @@ def create_appointment_type_list(
 
 
 def create_appointment_type_list_from_list(
-    appointments: list[AppointmentTuple], appointment_types: list[int]
+    appointments: list[AppointmentTuple],
 ) -> list[AppointmentTypeDict]:
     """
     Creates a list of appointment types with their corresponding appointments from a list of appointments.
@@ -81,10 +81,6 @@ def create_appointment_type_list_from_list(
 
     appointment_types_list = {}
     for appointment in appointments:
-        print(appointment[3])
-        if appointment[3] not in appointment_types:
-            continue
-
         appointment_type = appointment_types_dict[appointment[3]]
         if appointment_type.name not in appointment_types_list:
             appointment_types_list[appointment_type.name] = {
