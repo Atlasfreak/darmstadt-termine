@@ -1,10 +1,10 @@
 import datetime
-from typing import Iterable, NamedTuple, TypedDict
+from typing import Iterable, Iterator, NamedTuple, TypedDict
 
 from django.db.models import Max, Min, Q
 from django.utils import timezone
 
-from ..models import AppointmentType
+from ..models import AppointmentType, Location
 
 APPOINTMENT_TIME_FILTER = (
     Q(date__gt=timezone.now())
@@ -17,6 +17,7 @@ class AppointmentTuple(NamedTuple):
     end_time: datetime.time
     date: datetime.date
     appointment_type: int
+    location__name: str
 
 
 class AppointmentTypeDict(TypedDict):
@@ -45,7 +46,9 @@ def create_appointment_type_list(
     appointment_types_list = []
     for appointment_type in appointment_types:
         appointments = (
-            appointment_type.appointments.values("date", "start_time", "end_time")
+            appointment_type.appointments.values(
+                "end_time", "start_time", "date", "location__name"
+            )
             .annotate(Min("creation_date"), Max("creation_date"))
             .filter(*extra_filters)
             .distinct()
