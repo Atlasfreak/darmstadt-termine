@@ -97,3 +97,19 @@ def create_appointment_type_list_from_list(
         )
 
     return list(appointment_types_list.values())
+
+
+def filter_appointments_by_type(
+    appointments: Iterable[AppointmentTuple], appointment_types: Iterable[int]
+) -> Iterator[AppointmentTuple]:
+    """
+    filter_appointments_by_type filters appointments by their appointment type.
+
+    Args:
+        appointments (Iterable[AppointmentTuple]): A collection of appointments.
+        appointment_types (Iterable[int]): A collection of appointment type ids.
+
+    Returns:
+        filter[AppointmentTuple]: A filter object containing the filtered appointments.
+    """
+    return filter(lambda appointment: appointment[3] in appointment_types, appointments)
