@@ -8,5 +8,9 @@
        rel="noopener noreferrer">{{ protocol }}://{{ domain }}{% url "darmstadtTermine:edit" token=token %}</a>
 </p>
 <p>
-    <strong>{% translate "ACHTUNG: Bitte den Link kopieren und speichern! Dieser Link ist nur jetzt verfügbar!" %}</strong>
+    {% translate "Alternativ können Sie folgenden Token nutzen:" %}
+    <div class="user-select-all">{{ token }}</div>
+</p>
+<p>
+    <strong>{% translate "ACHTUNG: Bitte den Link oder Token kopieren und speichern! Dieser Link/Token ist nur jetzt verfügbar!" %}</strong>
 </p>
