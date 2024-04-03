@@ -98,6 +98,19 @@ class NotificationEditForm(forms.ModelForm):
     )
 
 
+class NotificationEditLoginForm(forms.Form):
+    token = forms.CharField(label=_("Token"))
+
+    def clean(self):
+        token = self.cleaned_data.get("token")
+        if not notification_access_token_generator.check_token(token):
+            raise forms.ValidationError(_("Token ungültig"))
+        return self.cleaned_data
+
+    def get_token(self):
+        return self.cleaned_data.get("token")
+
+
 class NotificationResetForm(forms.Form):
     email_adress = forms.EmailField(label=_("Email"))
 
