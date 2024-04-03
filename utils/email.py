@@ -11,6 +11,7 @@ from .models import (
     AppointmentTuple,
     AppointmentTypeDict,
     create_appointment_type_list_from_list,
+    filter_appointments_by_type,
 )
 from .site import get_site_name_domain
 
@@ -136,6 +137,12 @@ def create_notification_email_message_for_new_appointments(
     except ScraperRun.DoesNotExist:
         appointments_to_send = last_found_appointments
 
+    appointments_to_send = list(
+        filter_appointments_by_type(
+            appointments_to_send, appointment_types.values_list("pk", flat=True)
+        )
+    )
+
     if len(appointments_to_send) <= 0:
         return None
 
@@ -145,7 +152,7 @@ def create_notification_email_message_for_new_appointments(
     appointments_to_send.sort(key=lambda x: x.date)
 
     appointment_types_list = create_appointment_type_list_from_list(
-        appointments_to_send, appointment_types.values_list("pk", flat=True)
+        appointments_to_send
     )
 
     return create_notification_email_message(
