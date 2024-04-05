@@ -39,7 +39,7 @@
                                                     <tr>
                                                         {# djlint:on H025 #}
                                                         <th scope="row" rowspan="{{ appointments.list|length }}">
-                                                            <div class="stick-top">{{ appointments.grouper }}</div>
+                                                            <div class="sticky-top">{{ appointments.grouper }}</div>
                                                         </th>
                                                         {% for appointment in appointments.list %}
                                                             {% if not forloop.first %}<tr>{% endif %}
