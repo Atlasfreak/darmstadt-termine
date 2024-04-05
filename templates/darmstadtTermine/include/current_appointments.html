@@ -1,0 +1,64 @@
+{% load i18n %}
+<h2>{% translate "Aktuell verfügbare Termine:" %}</h2>
+<p>
+    <div class="ms-3">
+        {% regroup appointment_types_list by appointment_category as appointment_categories %}
+        {% for appointment_category in appointment_categories %}
+            <p>{{ appointment_category.grouper }}:</p>
+            <div class="ms-3">
+                <div class="accordion" id="current_appointments">
+                    {% for appointment_type in appointment_category.list %}
+                        {% if appointment_type.appointments %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button type="button"
+                                            class="accordion-button collapsed"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#type_{{ forloop.parentloop.counter0 }}_{{ forloop.counter0 }}"
+                                            aria-expanded="false"
+                                            aria-controls="type_{{ forloop.parentloop.counter0 }}_{{ forloop.counter0 }}">
+                                        {{ appointment_type.name }}
+                                    </button>
+                                </h2>
+                                <div id="type_{{ forloop.parentloop.counter0 }}_{{ forloop.counter0 }}"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#current_appointments">
+                                    <div class="accordion-body">
+                                        {% regroup appointment_type.appointments by date as date_list %}
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">{% translate "Datum" %}</th>
+                                                    <th scope="col">{% translate "Verfügbare Zeiten" %}</th>
+                                                    <th scope="col">{% translate "Ort" %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                {% for appointments in date_list %}
+                                                    {# djlint:off H025 #}
+                                                    <tr>
+                                                        {# djlint:on H025 #}
+                                                        <th scope="row" rowspan="{{ appointments.list|length }}">
+                                                            <div class="stick-top">{{ appointments.grouper }}</div>
+                                                        </th>
+                                                        {% for appointment in appointments.list %}
+                                                            {% if not forloop.first %}<tr>{% endif %}
+                                                                <td>{{ appointment.start_time }}-{{ appointment.end_time }}</td>
+                                                                <td>{{ appointment.location__name }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p>{% translate "Keine Termine verfügbar." %}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </p>
