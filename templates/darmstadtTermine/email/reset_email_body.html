@@ -22,8 +22,7 @@
                     </a>
                 </strong>
             </p>
-            <p>{% blocktranslate with time=timeout|timedelta %}Dieser Link ist aktiv für {{time}}.{% endblocktranslate %}</p>
-            {% include "darmstadtTermine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain %}
+            {% include "darmstadtTermine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
             <p>
                 {% translate "Mit freundlichen Grüßen" %}
                 <br>

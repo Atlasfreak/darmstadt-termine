@@ -70,7 +70,7 @@
                 {% translate "Diese E-Mail wurde automatisch generiert." %}
                 <br>
             </p>
-            {% include "darmstadtTermine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain %}
+            {% include "darmstadtTermine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
         </body>
     </html>
 {% endlanguage %}

@@ -1,9 +1,12 @@
+import datetime
+
 from django.core import mail
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
+from ..conf import settings
 from ..models import Appointment, Notification, ScraperRun
 from ..tokens import notification_delete_token_generator
 from .models import (
@@ -44,6 +47,7 @@ def create_notification_email_message(
         "email_language": notification.language,
         "delete_token": notification_delete_token_generator.make_token(notification),
         "idb64": urlsafe_base64_encode(force_bytes(notification.pk)),
+        "timeout": datetime.timedelta(seconds=settings.DARMSTADTTERMINE_RESET_TIMEOUT),
     }
 
     return create_template_mail(
