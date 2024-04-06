@@ -9,18 +9,18 @@
     <hr>
     <div class="row">
         <div class="col-md mb-md-0 mb-3">
-            <h2>Registrieren um Benachrichtigungen zu neuen Terminen zu erhalten:</h2>
-            <a href="{% url "darmstadtTermine:register" %}" class="btn btn-primary">Jetzt Registrieren</a>
+            <h2>{% translate "Registrieren um Benachrichtigungen zu neuen Terminen zu erhalten:" %}</h2>
+            <a href="{% url "darmstadtTermine:register" %}" class="btn btn-primary">{% translate "Jetzt Registrieren" %}</a>
         </div>
         <div class="col-md">
-            <h2>Bereits registrierte Benachrichtigungen bearbeiten:</h2>
+            <h2>{% translate "Bereits registrierte Benachrichtigungen bearbeiten:" %}</h2>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ edit_login_form|crispy }}
                 <button class="btn btn-primary" type="submit">{% translate "Zu den Einstellungen" %}</button>
             </form>
             <small class="text-secondary">
-                Token vergessen? <a href="{% url "darmstadtTermine:reset" %}" class="link-secondary">{% translate "Neuen Token anfordern" %}</a>
+                {% translate "Token vergessen?" %} <a href="{% url "darmstadtTermine:reset" %}" class="link-secondary">{% translate "Neuen Token anfordern" %}</a>
             </small>
         </div>
     </div>
