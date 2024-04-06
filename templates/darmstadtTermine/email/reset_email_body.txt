@@ -1,4 +1,4 @@
-{% load i18n %}{% autoescape off %}{% language email_language %}
+{% load i18n %}{% load notification_tags%}{% autoescape off %}{% language email_language %}
 {% translate "Hi," %}
 
 {% translate "um einen neuen Zugangslink für Ihre Benachrichtigung zu erhalten, klicken Sie bitte auf folgenden Zurücksetzlink:" %}
