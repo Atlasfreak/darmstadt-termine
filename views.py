@@ -191,7 +191,7 @@ def reset_notification_confirm(request: HttpRequest, idb64: str, token: str):
     notification = get_notification_b64id(idb64)
 
     if not notification_reset_token_generator.check_token(notification, token):
-        raise PermissionDenied("Token ungültig.")
+        raise PermissionDenied(_("Token ungültig."))
 
     unused, domain = get_site_name_domain(request)
 
