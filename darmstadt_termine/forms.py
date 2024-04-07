@@ -99,10 +99,10 @@ class NotificationEditLoginForm(forms.Form):
     token = forms.CharField(label=_("Token"))
 
     def clean_token(self):
-        token = self.cleaned_data.get("token")
-        if not notification_access_token_generator.check_token(token):
+        token_value = self.cleaned_data.get("token")
+        if not notification_access_token_generator.check_token(token_value):
             raise forms.ValidationError(_("Token ungültig"), code="invalid_token")
-        return self.cleaned_data
+        return token_value
 
     def get_token(self):
         return self.cleaned_data.get("token")
