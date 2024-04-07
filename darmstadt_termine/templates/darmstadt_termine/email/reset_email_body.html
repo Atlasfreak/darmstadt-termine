@@ -1,0 +1,34 @@
+{% load i18n %}
+{% load notification_tags %}
+{% language email_language %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Benachrichtigung zurücksetzen</title>
+        </head>
+        <body>
+            <p>{% translate "Hi," %}</p>
+            <p>
+                {% translate "um einen neuen Zugangslink für Ihre Benachrichtigung zu erhalten, klicken Sie bitte auf folgenden Zurücksetzlink:" %}
+            </p>
+            <p>
+                <strong>
+                    <a href="{{ protocol }}://{{ domain }}{% url "darmstadt_termine:reset_confirm" idb64=idb64 token=token %}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        {{ protocol }}://{{ domain }}{% url "darmstadt_termine:reset_confirm" idb64=idb64 token=token %}
+                    </a>
+                </strong>
+            </p>
+            {% include "darmstadt_termine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
+            <p>
+                {% translate "Mit freundlichen Grüßen" %}
+                <br>
+                {% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
+            </p>
+            <p>{% translate "Sollten Sie keine Zurücksetzung angefordert haben, können Sie diese E-Mail ignorieren." %}</p>
+        </body>
+    </html>
+{% endlanguage %}

@@ -1,4 +1,0 @@
-{% load i18n %}{% load notification_tags%}
-{% translate "Mit folgendem Link können Sie sich von weiteren Benachrichtigungen abmelden:" %}
-{{protocol}}://{{domain}}{% url "darmstadtTermine:delete" idb64=idb64 token=token %}
-{% blocktranslate with time=timeout|timedelta %}Dieser Link ist aktiv für {{time}}.{% endblocktranslate %}

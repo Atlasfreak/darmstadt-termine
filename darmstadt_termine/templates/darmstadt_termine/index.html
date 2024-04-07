@@ -1,0 +1,30 @@
+{% extends "darmstadt_termine/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {% translate "Termintracker für Termine der Stadt Darmstadt" %}
+{% endblock title %}
+{% block content %}
+    <h1>{% translate "Termintracker für Termine der Stadt Darmstadt" %}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md mb-md-0 mb-3">
+            <h2>{% translate "Registrieren um Benachrichtigungen zu neuen Terminen zu erhalten:" %}</h2>
+            <a href="{% url "darmstadt_termine:register" %}" class="btn btn-primary">{% translate "Jetzt Registrieren" %}</a>
+        </div>
+        <div class="col-md">
+            <h2>{% translate "Bereits registrierte Benachrichtigungen bearbeiten:" %}</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ edit_login_form|crispy }}
+                <button class="btn btn-primary" type="submit">{% translate "Zu den Einstellungen" %}</button>
+            </form>
+            <small class="text-secondary">
+                {% translate "Token vergessen?" %} <a href="{% url "darmstadt_termine:reset" %}" class="link-secondary">{% translate "Neuen Token anfordern" %}</a>
+            </small>
+        </div>
+    </div>
+    <hr>
+    {% include "darmstadt_termine/include/current_appointments.html" with appointment_types_list=appointment_types_list %}
+    <p>{% translate "Hier kommen bald Statistiken über verfügbare Termine hin." %}</p>
+{% endblock content %}

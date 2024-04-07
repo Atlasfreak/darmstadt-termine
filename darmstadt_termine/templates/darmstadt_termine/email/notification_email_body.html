@@ -1,0 +1,76 @@
+{% load i18n %}
+{% language email_language %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                table {
+                    border-collapse: collapse;
+                }
+
+                td,
+                th {
+                    padding: 10px;
+                }
+
+                table,
+                th,
+                td {
+                    border: 1px solid #dddfe1;
+                }
+            </style>
+            <title>Es sind neue Termine verfügbar!</title>
+        </head>
+        <body>
+            <p>{% blocktranslate %}Es gibt {{appointments_count}} neue Termine bei der Stadt Darmstadt!{% endblocktranslate %}</p>
+            <p>{% translate "Liste der Termine nach Anliegen sortiert:" %}</p>
+            {% regroup appointment_types_list by appointment_category as appointemnt_categories_list %}
+            {% for appointment_category in appointment_categories_list %}
+                <p>{{ appointment_category.grouper }}:</p>
+                {# djlint:off H021 #}
+                <div style="margin-left: 20px">
+                    {# djlint:on #}
+                    {% for appointment_type in appointment_category.list %}
+                        <p>{{ appointment_type.name }}:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>{% translate "Datum" %}</th>
+                                    <th>{% translate "Anzahl der Termine:" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% regroup appointment_type.appointments by date as date_list %}
+                                {% for date in date_list %}
+                                    <tr>
+                                        <td>{{ date.grouper }}</td>
+                                        <td>
+                                            <ul>
+                                                {% for appointment in date.list %}<li>{{ appointment.start_time }}-{{ appointment.end_time }}</li>{% endfor %}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <p>{% translate "Wenn Sie einen Termin vereinbaren möchten, folgen Sie bitte diesem Link:" %}</p>
+            <p>
+                <strong>
+                    <a href="https://tevis.ekom21.de/stdar/"
+                       target="_blank"
+                       rel="noopener noreferrer">https://tevis.ekom21.de/stdar/</a>
+                </strong>
+            </p>
+            <p>
+                {% translate "Diese E-Mail wurde automatisch generiert." %}
+                <br>
+            </p>
+            {% include "darmstadt_termine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
+        </body>
+    </html>
+{% endlanguage %}

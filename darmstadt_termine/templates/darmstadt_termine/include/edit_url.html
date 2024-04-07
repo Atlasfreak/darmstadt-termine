@@ -1,0 +1,16 @@
+{% load i18n %}
+<p>
+    {% blocktranslate %}Unter folgendem Link können Sie einstellen für welche Termine Sie Benachrichtigungen erhalten:{% endblocktranslate %}
+</p>
+<p>
+    <a href="{% url "darmstadt_termine:edit" token=token %}"
+       target="_blank"
+       rel="noopener noreferrer">{{ protocol }}://{{ domain }}{% url "darmstadt_termine:edit" token=token %}</a>
+</p>
+<p>
+    {% translate "Alternativ können Sie folgenden Token nutzen:" %}
+    <div class="user-select-all">{{ token }}</div>
+</p>
+<p>
+    <strong>{% translate "ACHTUNG: Bitte den Link oder Token kopieren und speichern! Dieser Link/Token ist nur jetzt verfügbar!" %}</strong>
+</p>

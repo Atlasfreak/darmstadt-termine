@@ -1,0 +1,12 @@
+{% load i18n %}{% load notification_tags%}{% autoescape off %}{% language email_language %}
+{% translate "Hi," %}
+
+{% translate "um einen neuen Zugangslink für Ihre Benachrichtigung zu erhalten, klicken Sie bitte auf folgenden Zurücksetzlink:" %}
+{{protocol}}://{{domain}}{% url "darmstadt_termine:reset_confirm" idb64=idb64 token=token%}
+{% include "darmstadt_termine/include/delete_url.txt" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
+
+{% translate "Mit freundlichen Grüßen" %}
+{% blocktranslate %}Das Team von {{site_name}}{% endblocktranslate %}
+
+{% translate "Sollten Sie keine Zurücksetzung angefordert haben, können Sie diese E-Mail ignorieren." %}
+{% endlanguage %}{% endautoescape %}
