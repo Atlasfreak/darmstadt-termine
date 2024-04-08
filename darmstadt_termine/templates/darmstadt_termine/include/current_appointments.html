@@ -59,6 +59,8 @@
                         {% endfor %}
                     </div>
                 </div>
+            {% empty %}
+                <p>{% translate "Keine Termine verfügbar." %}</p>
             {% endfor %}
         </div>
     </p>
