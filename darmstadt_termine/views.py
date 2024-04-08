@@ -44,29 +44,32 @@ def get_notification_b64id(idb64: str) -> Notification:
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    last_scraper_run = ScraperRun.objects.latest("start_time")
+    try:
+        last_scraper_run = ScraperRun.objects.latest("start_time")
 
-    last_found_appointments = list(
-        Appointment.objects.filter(
-            creation_date__gte=last_scraper_run.start_time,
-            creation_date__lte=last_scraper_run.end_time,
-            *APPOINTMENT_TIME_FILTER,
+        last_found_appointments = list(
+            Appointment.objects.filter(
+                creation_date__gte=last_scraper_run.start_time,
+                creation_date__lte=last_scraper_run.end_time,
+                *APPOINTMENT_TIME_FILTER,
+            )
+            .order_by("date", "start_time")
+            .values_list(
+                "start_time",
+                "end_time",
+                "date",
+                "appointment_type",
+                "location__name",
+                named=True,
+            )
+            .distinct()
         )
-        .order_by("date", "start_time")
-        .values_list(
-            "start_time",
-            "end_time",
-            "date",
-            "appointment_type",
-            "location__name",
-            named=True,
-        )
-        .distinct()
-    )
 
-    appointment_types_list = create_appointment_type_list_from_list(
-        last_found_appointments
-    )
+        appointment_types_list = create_appointment_type_list_from_list(
+            last_found_appointments
+        )
+    except ScraperRun.DoesNotExist:
+        appointment_types_list = []
 
     if request.method == "POST":
         edit_login_form = NotificationEditLoginForm(request.POST)
