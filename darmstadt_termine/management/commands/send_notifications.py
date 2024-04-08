@@ -31,7 +31,7 @@ class Command(BaseCommand):
             "--no-update", help="Do not update last_sent timestamp", action="store_true"
         )
 
-    def handle(self, *args: Any, **options: Any) -> str | None:
+    def handle(self, *args: Any, **options: Any) -> None:
         notifications = Notification.objects.filter(
             last_sent__lt=timezone.now() - F("minimum_waittime"), active=True
         ).prefetch_related(
@@ -50,31 +50,38 @@ class Command(BaseCommand):
         email_messages = []
 
         sent_notifications = []
+        try:
+            last_scraper_run = ScraperRun.objects.latest("start_time")
+            last_found_appointments = set(
+                Appointment.objects.filter(
+                    creation_date__gte=last_scraper_run.start_time,
+                    creation_date__lte=last_scraper_run.end_time,
+                    *APPOINTMENT_TIME_FILTER
+                )
+                .values_list(
+                    "start_time", "end_time", "date", "appointment_type", named=True
+                )
+                .distinct()
+            )
+        except ScraperRun.DoesNotExist:
+            return
 
-        last_scraper_run = ScraperRun.objects.latest("start_time")
-        last_found_appointments = set(
-            Appointment.objects.filter(
-                creation_date__gte=last_scraper_run.start_time,
-                creation_date__lte=last_scraper_run.end_time,
-                *APPOINTMENT_TIME_FILTER
+        try:
+            second_last_scraper_run = ScraperRun.objects.order_by("-start_time")[1]
+            second_last_found_appointments = set(
+                Appointment.objects.filter(
+                    creation_date__gte=second_last_scraper_run.start_time,
+                    creation_date__lte=second_last_scraper_run.end_time,
+                    *APPOINTMENT_TIME_FILTER
+                )
+                .values_list(
+                    "start_time", "end_time", "date", "appointment_type", named=True
+                )
+                .distinct()
             )
-            .values_list(
-                "start_time", "end_time", "date", "appointment_type", named=True
-            )
-            .distinct()
-        )
-        second_last_scraper_run = ScraperRun.objects.order_by("-start_time")[1]
-        second_last_found_appointments = set(
-            Appointment.objects.filter(
-                creation_date__gte=second_last_scraper_run.start_time,
-                creation_date__lte=second_last_scraper_run.end_time,
-                *APPOINTMENT_TIME_FILTER
-            )
-            .values_list(
-                "start_time", "end_time", "date", "appointment_type", named=True
-            )
-            .distinct()
-        )
+        except ScraperRun.DoesNotExist:
+            second_last_found_appointments = set()
+
         new_appointments = last_found_appointments - second_last_found_appointments
 
         for notification in notifications:
