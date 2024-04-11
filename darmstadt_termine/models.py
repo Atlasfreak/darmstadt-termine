@@ -74,7 +74,7 @@ class Notification(models.Model):
         default=datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc),
     )
     minimum_waittime = models.DurationField(
-        _("Mindest Wartezeit"),
+        _("Mindestwartezeit"),
         validators=[
             validators.MinValueValidator(
                 datetime.timedelta(minutes=1),
@@ -82,6 +82,9 @@ class Notification(models.Model):
             )
         ],
         default=datetime.timedelta(minutes=5),
+        help_text=_(
+            "Die Mindestwartezeit bis die nächste Benachrichtigung gesendet wird. Format: HH:MM:SS"
+        ),
     )
     active = models.BooleanField(_("Aktiviert"), default=False)
 
