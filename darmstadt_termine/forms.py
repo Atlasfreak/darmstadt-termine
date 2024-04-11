@@ -5,6 +5,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
+from darmstadt_termine import widgets
+
 from .conf import settings
 from .fields import GroupedModelChoiceField
 from .models import AppointmentType, Notification
@@ -22,6 +24,9 @@ class NotificationRegisterForm(forms.ModelForm):
     class Meta:
         model = Notification
         fields = ("email", "language", "appointment_type", "minimum_waittime")
+        widgets = {
+            "minimum_waittime": widgets.DurationInput(),
+        }
 
     language = forms.ChoiceField(
         label=Meta.model._meta.get_field("language").verbose_name,
@@ -81,6 +86,9 @@ class NotificationEditForm(forms.ModelForm):
     class Meta:
         model = Notification
         fields = ("language", "appointment_type", "minimum_waittime")
+        widgets = {
+            "minimum_waittime": widgets.DurationInput(),
+        }
 
     appointment_type = GroupedModelChoiceField(
         queryset=AppointmentType.objects.all(),
