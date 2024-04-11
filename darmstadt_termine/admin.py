@@ -37,6 +37,19 @@ class NotificationAdmin(admin.ModelAdmin):
     )
     list_filter = ("creation_date", "last_sent", "active")
     autocomplete_fields = ("appointment_type",)
+    actions = ["activate_action", "deactivate_action"]
+
+    def activate_action(self, request, queryset):
+        updated_rows = queryset.update(active=True)
+        self.message_user(request, f"{updated_rows} Benachrichtigungen aktiviert.")
+
+    activate_action.short_description = "Benachrichtigungen aktivieren"
+
+    def deactivate_action(self, request, queryset):
+        updated_rows = queryset.update(active=False)
+        self.message_user(request, f"{updated_rows} Benachrichtigungen deaktiviert.")
+
+    deactivate_action.short_description = "Benachrichtigungen deaktivieren"
 
 
 @admin.register(AppointmentType)
@@ -45,6 +58,19 @@ class AppointmentTypeAdmin(admin.ModelAdmin):
     list_filter = ("active", "appointment_category")
     autocomplete_fields = ("location",)
     search_fields = ("name",)
+    actions = ["activate_action", "deactivate_action"]
+
+    def activate_action(self, request, queryset):
+        updated_rows = queryset.update(active=True)
+        self.message_user(request, f"{updated_rows} Anliegen aktiviert.")
+
+    activate_action.short_description = "Anliegen aktivieren"
+
+    def deactivate_action(self, request, queryset):
+        updated_rows = queryset.update(active=False)
+        self.message_user(request, f"{updated_rows} Anliegen deaktiviert.")
+
+    deactivate_action.short_description = "Anliegen deaktivieren"
 
 
 @admin.register(AppointmentCategory)
