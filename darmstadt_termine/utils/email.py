@@ -130,7 +130,12 @@ def create_notification_email_message_for_new_appointments(
                 *APPOINTMENT_TIME_FILTER
             )
             .values_list(
-                "start_time", "end_time", "date", "appointment_type", named=True
+                "start_time",
+                "end_time",
+                "date",
+                "appointment_type",
+                "location__name",
+                named=True,
             )
             .distinct()
         )

@@ -59,7 +59,12 @@ class Command(BaseCommand):
                     *APPOINTMENT_TIME_FILTER
                 )
                 .values_list(
-                    "start_time", "end_time", "date", "appointment_type", named=True
+                    "start_time",
+                    "end_time",
+                    "date",
+                    "appointment_type",
+                    "location__name",
+                    named=True,
                 )
                 .distinct()
             )
@@ -75,7 +80,12 @@ class Command(BaseCommand):
                     *APPOINTMENT_TIME_FILTER
                 )
                 .values_list(
-                    "start_time", "end_time", "date", "appointment_type", named=True
+                    "start_time",
+                    "end_time",
+                    "date",
+                    "appointment_type",
+                    "location__name",
+                    named=True,
                 )
                 .distinct()
             )

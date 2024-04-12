@@ -37,40 +37,43 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>{% translate "Datum" %}</th>
-                                    <th>{% translate "Anzahl der Termine:" %}</th>
+                                    <th scope="col">{% translate "Datum" %}</th>
+                                    <th scope="col">{% translate "Verfügbare Zeiten" %}</th>
+                                    <th scope="col">{% translate "Ort" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% regroup appointment_type.appointments by date as date_list %}
-                                {% for date in date_list %}
+                                {% for appointments in date_list %}
+                                    {# djlint:off H025 #}
                                     <tr>
-                                        <td>{{ date.grouper }}</td>
-                                        <td>
-                                            <ul>
-                                                {% for appointment in date.list %}<li>{{ appointment.start_time }}-{{ appointment.end_time }}</li>{% endfor %}
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <p>{% translate "Wenn Sie einen Termin vereinbaren möchten, folgen Sie bitte diesem Link:" %}</p>
-            <p>
-                <strong>
-                    <a href="https://tevis.ekom21.de/stdar/"
-                       target="_blank"
-                       rel="noopener noreferrer">https://tevis.ekom21.de/stdar/</a>
-                </strong>
-            </p>
-            <p>
-                {% translate "Diese E-Mail wurde automatisch generiert." %}
-                <br>
-            </p>
-            {% include "darmstadt_termine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
-        </body>
-    </html>
-{% endlanguage %}
+                                        {# djlint:on H025 #}
+                                        <th scope="row" rowspan="{{ appointments.list|length }}">{{ appointments.grouper|date }}</th>
+                                        {% for appointment in appointments.list %}
+                                            {% if not forloop.first %}<tr>{% endif %}
+                                                <td>{{ appointment.start_time|time }}-{{ appointment.end_time|time }}</td>
+                                                <td>{{ appointment.location__name }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <p>{% translate "Wenn Sie einen Termin vereinbaren möchten, folgen Sie bitte diesem Link:" %}</p>
+                <p>
+                    <strong>
+                        <a href="https://tevis.ekom21.de/stdar/"
+                           target="_blank"
+                           rel="noopener noreferrer">https://tevis.ekom21.de/stdar/</a>
+                    </strong>
+                </p>
+                <p>
+                    {% translate "Diese E-Mail wurde automatisch generiert." %}
+                    <br>
+                </p>
+                {% include "darmstadt_termine/include/delete_url.html" with idb64=idb64 token=delete_token protocol=protocol domain=domain timeout=timeout %}
+            </body>
+        </html>
+    {% endlanguage %}
