@@ -33,31 +33,33 @@
                 <div style="margin-left: 20px">
                     {# djlint:on #}
                     {% for appointment_type in appointment_category.list %}
-                        <p>{{ appointment_type.name }}:</p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">{% translate "Datum" %}</th>
-                                    <th scope="col">{% translate "Verfügbare Zeiten" %}</th>
-                                    <th scope="col">{% translate "Ort" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% regroup appointment_type.appointments by date as date_list %}
-                                {% for appointments in date_list %}
-                                    {# djlint:off H025 #}
+                        <details>
+                            <summary>{{ appointment_type.name }}</summary>
+                            <table>
+                                <thead>
                                     <tr>
-                                        {# djlint:on H025 #}
-                                        <th scope="row" rowspan="{{ appointments.list|length }}">{{ appointments.grouper|date }}</th>
-                                        {% for appointment in appointments.list %}
-                                            {% if not forloop.first %}<tr>{% endif %}
-                                                <td>{{ appointment.start_time|time }}-{{ appointment.end_time|time }}</td>
-                                                <td>{{ appointment.location__name }}</td>
-                                            </tr>
+                                        <th scope="col">{% translate "Datum" %}</th>
+                                        <th scope="col">{% translate "Verfügbare Zeiten" %}</th>
+                                        <th scope="col">{% translate "Ort" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% regroup appointment_type.appointments by date as date_list %}
+                                    {% for appointments in date_list %}
+                                        {# djlint:off H025 #}
+                                        <tr>
+                                            {# djlint:on H025 #}
+                                            <th scope="row" rowspan="{{ appointments.list|length }}">{{ appointments.grouper|date }}</th>
+                                            {% for appointment in appointments.list %}
+                                                {% if not forloop.first %}<tr>{% endif %}
+                                                    <td>{{ appointment.start_time|time }}-{{ appointment.end_time|time }}</td>
+                                                    <td>{{ appointment.location__name }}</td>
+                                                </tr>
+                                            {% endfor %}
                                         {% endfor %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </details>
                         {% endfor %}
                     </div>
                 {% endfor %}
