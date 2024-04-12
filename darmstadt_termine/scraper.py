@@ -4,7 +4,8 @@ from typing import Coroutine
 
 import httpx
 from asgiref.sync import sync_to_async
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup, Doctype, SoupStrainer
+from bs4.diagnose import diagnose
 from django.core.mail import mail_admins
 from django.db.models import Q
 from django.utils import timezone
@@ -84,6 +85,9 @@ async def fetch_appointment(
         tasks = []
 
         for element in soup:
+            if isinstance(element, Doctype):
+                element.extract()
+                continue
             try:
                 start_time = int(
                     element.findNext("input", attrs={"name": "start"})["value"]
@@ -97,7 +101,7 @@ async def fetch_appointment(
             except TypeError:
                 mail_admins(
                     "Fehler beim Parsen der Termine",
-                    f"Das nachfolgende Terminelement konnte nicht geparst werden.\n{element}\nSoup:\n{soup}\nAnfragetext:\n{request.text}",
+                    f"Das nachfolgende Terminelement konnte nicht geparst werden.\nURL:{request.url}\nParsed element:\n{element}\nSoup:\n{soup}\nAnfragetext:\n{request.text}",
                 )
                 continue
             tasks.append(
