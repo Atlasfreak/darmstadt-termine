@@ -113,6 +113,11 @@ def create_notification_email_message_for_new_appointments(
         None | mail.EmailMultiAlternatives: the email message or None if no new appointments were found
     """
     appointment_types = notification.appointment_type.all()
+    appointment_types_to_category = {}
+    for appointment_type in appointment_types:
+        appointment_types_to_category[appointment_type.pk] = (
+            appointment_type.appointment_category.pk
+        )
 
     try:
         last_sent_scraper_run = ScraperRun.objects.filter(
@@ -159,6 +164,9 @@ def create_notification_email_message_for_new_appointments(
         list(appointments_to_send), key=lambda x: x.start_time
     )
     appointments_to_send.sort(key=lambda x: x.date)
+    appointments_to_send.sort(
+        key=lambda x: appointment_types_to_category[x.appointment_type]
+    )
 
     appointment_types_list = create_appointment_type_list_from_list(
         appointments_to_send

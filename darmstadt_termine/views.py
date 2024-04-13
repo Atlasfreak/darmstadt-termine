@@ -53,7 +53,7 @@ def index(request: HttpRequest) -> HttpResponse:
                 creation_date__lte=last_scraper_run.end_time,
                 *APPOINTMENT_TIME_FILTER,
             )
-            .order_by("date", "start_time")
+            .order_by("appointment_type__appointment_category", "date", "start_time")
             .values_list(
                 "start_time",
                 "end_time",
