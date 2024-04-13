@@ -85,9 +85,12 @@ class NotificationRegisterForm(forms.ModelForm):
 class NotificationEditForm(forms.ModelForm):
     class Meta:
         model = Notification
-        fields = ("language", "appointment_type", "minimum_waittime")
+        fields = ("language", "appointment_type", "minimum_waittime", "active")
         widgets = {
             "minimum_waittime": widgets.DurationInput(),
+        }
+        labels = {
+            "active": _("Benachrichtigungen erhalten"),
         }
 
     appointment_type = GroupedModelChoiceField(

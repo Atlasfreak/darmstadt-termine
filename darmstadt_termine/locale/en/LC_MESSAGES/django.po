@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-13 04:30+0200\n"
+"POT-Creation-Date: 2024-04-13 05:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\darmstadt_termine\forms.py:40 .\darmstadt_termine\forms.py:96
+#: .\darmstadt_termine\forms.py:40 .\darmstadt_termine\forms.py:99
 msgid "Zu überwachende Anliegen"
 msgstr "Types to watch"
 
@@ -28,19 +28,23 @@ msgid ""
 "erhalten"
 msgstr "Confirm your email address to receive notifications for appointments"
 
-#: .\darmstadt_termine\forms.py:107
+#: .\darmstadt_termine\forms.py:93
+msgid "Benachrichtigungen erhalten"
+msgstr "Receive notifications"
+
+#: .\darmstadt_termine\forms.py:110
 msgid "Token"
 msgstr "Token"
 
-#: .\darmstadt_termine\forms.py:112
+#: .\darmstadt_termine\forms.py:115
 msgid "Token ungültig"
 msgstr "Token invalid"
 
-#: .\darmstadt_termine\forms.py:120
+#: .\darmstadt_termine\forms.py:123
 msgid "Email"
 msgstr "Email"
 
-#: .\darmstadt_termine\forms.py:159
+#: .\darmstadt_termine\forms.py:162
 #, python-format
 msgid "Benachrichtigungszugang auf %(site)s zurücksetzen"
 msgstr "Reset notification access on %(site)s"
@@ -114,7 +118,9 @@ msgstr "The wait time must be at least 1 minute."
 msgid ""
 "Die Mindestwartezeit bis die nächste Benachrichtigung gesendet wird. Format: "
 "HH:MM:SS"
-msgstr "The minimum time to wait before the next notification is sent. Format: HH:MM:SS"
+msgstr ""
+"The minimum time to wait before the next notification is sent. Format: HH:MM:"
+"SS"
 
 #: .\darmstadt_termine\models.py:89 .\darmstadt_termine\models.py:109
 msgid "Aktiviert"
