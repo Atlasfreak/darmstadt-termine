@@ -97,7 +97,9 @@ def register_notification(request: HttpRequest):
             notification = form.save(use_https=request.is_secure())
             messages.success(
                 request,
-                _("Benachrichtigung für %(email)s erfolgreich registriet")
+                _(
+                    "Eine E-Mail mit einem Link zur Aktivierung wurde an %(email)s gesendet."
+                )
                 % {"email": notification.email},
             )
             return redirect("darmstadt_termine:index")
