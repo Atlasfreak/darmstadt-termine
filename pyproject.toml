@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "darmstadt-termine"
-version = "1.2.1"
+version = "1.2.2"
 description = "Scans for available appointments on the webpage of the administrative office of Darmstadt"
 authors = ["Per Göttlicher <contact@pergoet.de>"]
 license = "MIT"
