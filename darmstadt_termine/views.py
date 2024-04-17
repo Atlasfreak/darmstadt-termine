@@ -96,7 +96,7 @@ def register_notification(request: HttpRequest):
             messages.success(
                 request,
                 _(
-                    "Eine E-Mail mit einem Link zur Aktivierung wurde an %(email)s gesendet."
+                    "Eine E-Mail mit einem Link zur Aktivierung wurde an %(email)s gesendet. Bitte auch den Spam-Ordner überprüfen."
                 )
                 % {"email": notification.email},
             )

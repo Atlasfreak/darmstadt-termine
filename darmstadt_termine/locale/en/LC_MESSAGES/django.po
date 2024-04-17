@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-16 12:46+0200\n"
+"POT-Creation-Date: 2024-04-17 03:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,103 +18,103 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: darmstadt_termine/forms.py:40 darmstadt_termine/forms.py:99
+#: .\darmstadt_termine\forms.py:40 .\darmstadt_termine\forms.py:99
 msgid "Zu überwachende Anliegen"
 msgstr "Types to watch"
 
-#: darmstadt_termine/forms.py:73
+#: .\darmstadt_termine\forms.py:73
 msgid ""
 "Bitte bestätige deine E-Mail Adresse um Benachrichtigungen für Termine zu "
 "erhalten"
 msgstr "Confirm your email address to receive notifications for appointments"
 
-#: darmstadt_termine/forms.py:93
+#: .\darmstadt_termine\forms.py:93
 msgid "Benachrichtigungen erhalten"
 msgstr "Receive notifications"
 
-#: darmstadt_termine/forms.py:110
+#: .\darmstadt_termine\forms.py:110
 msgid "Token"
 msgstr "Token"
 
-#: darmstadt_termine/forms.py:115
+#: .\darmstadt_termine\forms.py:115
 msgid "Token ungültig"
 msgstr "Token invalid"
 
-#: darmstadt_termine/forms.py:123
+#: .\darmstadt_termine\forms.py:123
 msgid "Email"
 msgstr "Email"
 
-#: darmstadt_termine/forms.py:162
+#: .\darmstadt_termine\forms.py:165
 #, python-format
 msgid "Benachrichtigungszugang auf %(site)s zurücksetzen"
 msgstr "Reset notification access on %(site)s"
 
-#: darmstadt_termine/models.py:15 darmstadt_termine/models.py:68
+#: .\darmstadt_termine\models.py:15 .\darmstadt_termine\models.py:68
 msgid "Erstellungsdatum"
 msgstr "Creation date"
 
-#: darmstadt_termine/models.py:17 darmstadt_termine/models.py:160
+#: .\darmstadt_termine\models.py:17 .\darmstadt_termine\models.py:161
 msgid "Startzeit"
 msgstr "Start time"
 
-#: darmstadt_termine/models.py:18 darmstadt_termine/models.py:161
+#: .\darmstadt_termine\models.py:18 .\darmstadt_termine\models.py:162
 msgid "Endzeit"
 msgstr "End time"
 
-#: darmstadt_termine/models.py:19
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:41
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:31
+#: .\darmstadt_termine\models.py:19
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:41
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:31
 msgid "Datum"
 msgstr "Date"
 
-#: darmstadt_termine/models.py:23 darmstadt_termine/models.py:36
+#: .\darmstadt_termine\models.py:23 .\darmstadt_termine\models.py:36
 msgid "Termine"
 msgstr "Appointments"
 
-#: darmstadt_termine/models.py:27 darmstadt_termine/models.py:117
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:43
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:33
+#: .\darmstadt_termine\models.py:27 .\darmstadt_termine\models.py:118
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:43
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:33
 msgid "Ort"
 msgstr "Location"
 
-#: darmstadt_termine/models.py:35
+#: .\darmstadt_termine\models.py:35
 msgid "Termin"
 msgstr "Appointment"
 
-#: darmstadt_termine/models.py:52
+#: .\darmstadt_termine\models.py:52
 msgid "E-Mail"
 msgstr "Email"
 
-#: darmstadt_termine/models.py:54
+#: .\darmstadt_termine\models.py:54
 msgid "Sprache"
 msgstr "Language"
 
-#: darmstadt_termine/models.py:58
+#: .\darmstadt_termine\models.py:58
 msgid "Token Selector"
 msgstr "Token selector"
 
-#: darmstadt_termine/models.py:60
+#: .\darmstadt_termine\models.py:60
 msgid "Token Verifier"
 msgstr "Token verifier"
 
-#: darmstadt_termine/models.py:63 darmstadt_termine/models.py:122
-#: darmstadt_termine/models.py:123
+#: .\darmstadt_termine\models.py:63 .\darmstadt_termine\models.py:123
+#: .\darmstadt_termine\models.py:124
 msgid "Anliegen"
 msgstr "Type"
 
-#: darmstadt_termine/models.py:71
+#: .\darmstadt_termine\models.py:71
 msgid "Zuletzt gesendet"
 msgstr "Last sent"
 
-#: darmstadt_termine/models.py:77
+#: .\darmstadt_termine\models.py:77
 msgid "Mindestwartezeit"
 msgstr "Minimum wait time"
 
-#: darmstadt_termine/models.py:81
+#: .\darmstadt_termine\models.py:81
 msgid "Die Wartezeit muss mindestens 1 Minute betragen."
 msgstr "The wait time must be at least 1 minute."
 
-#: darmstadt_termine/models.py:86
+#: .\darmstadt_termine\models.py:86
 msgid ""
 "Die Mindestwartezeit bis die nächste Benachrichtigung gesendet wird. Format: "
 "HH:MM:SS"
@@ -122,95 +122,99 @@ msgstr ""
 "The minimum time to wait before the next notification is sent. Format: HH:MM:"
 "SS"
 
-#: darmstadt_termine/models.py:89 darmstadt_termine/models.py:109
+#: .\darmstadt_termine\models.py:89 .\darmstadt_termine\models.py:110
 msgid "Aktiviert"
 msgstr "Activated"
 
-#: darmstadt_termine/models.py:92
+#: .\darmstadt_termine\models.py:90
+msgid "Bestätigt"
+msgstr "Confirmed"
+
+#: .\darmstadt_termine\models.py:93
 msgid "Benachrichtigung"
 msgstr "Notification"
 
-#: darmstadt_termine/models.py:93
+#: .\darmstadt_termine\models.py:94
 msgid "Benachrichtigungen"
 msgstr "Notifications"
 
-#: darmstadt_termine/models.py:107 darmstadt_termine/models.py:137
+#: .\darmstadt_termine\models.py:108 .\darmstadt_termine\models.py:138
 msgid "Bezeichnung"
 msgstr "Name"
 
-#: darmstadt_termine/models.py:108 darmstadt_termine/models.py:138
+#: .\darmstadt_termine\models.py:109 .\darmstadt_termine\models.py:139
 msgid "Index"
 msgstr "Index"
 
-#: darmstadt_termine/models.py:113
+#: .\darmstadt_termine\models.py:114
 msgid "Kategorie"
 msgstr "Category"
 
-#: darmstadt_termine/models.py:141 darmstadt_termine/models.py:202
+#: .\darmstadt_termine\models.py:142 .\darmstadt_termine\models.py:203
 msgid "Abteilung"
 msgstr "Department"
 
-#: darmstadt_termine/models.py:148
+#: .\darmstadt_termine\models.py:149
 msgid "Anliegenkategorie"
 msgstr "Type category"
 
-#: darmstadt_termine/models.py:149
+#: .\darmstadt_termine\models.py:150
 msgid "Anliegenkategorien"
 msgstr "Type categories"
 
-#: darmstadt_termine/models.py:164
+#: .\darmstadt_termine\models.py:165
 msgid "Scraperlauf"
 msgstr "Scraper run"
 
-#: darmstadt_termine/models.py:165
+#: .\darmstadt_termine\models.py:166
 msgid "Scraperläufe"
 msgstr "Scraper runs"
 
-#: darmstadt_termine/models.py:179 darmstadt_termine/models.py:198
+#: .\darmstadt_termine\models.py:180 .\darmstadt_termine\models.py:199
 msgid "Name"
 msgstr "Name"
 
-#: darmstadt_termine/models.py:180
+#: .\darmstadt_termine\models.py:181
 msgid "Von der API genutzter Name"
 msgstr "Name used by the API"
 
-#: darmstadt_termine/models.py:181 darmstadt_termine/models.py:199
+#: .\darmstadt_termine\models.py:182 .\darmstadt_termine\models.py:200
 msgid "API ID"
 msgstr "API ID"
 
-#: darmstadt_termine/models.py:184
+#: .\darmstadt_termine\models.py:185
 msgid "Standort"
 msgstr "Location"
 
-#: darmstadt_termine/models.py:185
+#: .\darmstadt_termine\models.py:186
 msgid "Standorte"
 msgstr "Locations"
 
-#: darmstadt_termine/models.py:203
+#: .\darmstadt_termine\models.py:204
 msgid "Abteilungen"
 msgstr "Departments"
 
-#: darmstadt_termine/templates/darmstadt_termine/activate.html:5
+#: .\darmstadt_termine\templates\darmstadt_termine\activate.html:5
 msgid "Ihre Benachrichtigung wurde erfolgreich aktiviert!"
 msgstr "Your Notification has been successfully activated!"
 
-#: darmstadt_termine/templates/darmstadt_termine/edit.html:10
+#: .\darmstadt_termine\templates\darmstadt_termine\edit.html:10
 msgid "Speichern"
 msgstr "Save"
 
-#: darmstadt_termine/templates/darmstadt_termine/edit.html:14
+#: .\darmstadt_termine\templates\darmstadt_termine\edit.html:14
 msgid "Löschen"
 msgstr "Delete"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:12
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:2
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.html:12
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.txt:2
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:12
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:2
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.html:12
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.txt:2
 msgid "Hi,"
 msgstr "Hi,"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:14
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:4
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:14
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:4
 msgid ""
 "zum Bestätigen Ihrer E-Mail Adresse und zum Einrichten Ihrer "
 "Benachrichtigungen für die Terminvergabe der Stadt Darmstadt, klicken Sie "
@@ -220,70 +224,70 @@ msgstr ""
 "appointment allocation of the city of Darmstadt, please click on the "
 "following confirmation link:"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:25
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:8
-#: darmstadt_termine/templates/darmstadt_termine/include/delete_url.html:9
-#: darmstadt_termine/templates/darmstadt_termine/include/delete_url.txt:4
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:25
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:8
+#: .\darmstadt_termine\templates\darmstadt_termine\include\delete_url.html:9
+#: .\darmstadt_termine\templates\darmstadt_termine\include\delete_url.txt:4
 #, python-format
 msgid "Dieser Link ist aktiv für %(time)s."
 msgstr "This link is active for %(time)s."
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:27
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:10
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.html:27
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.txt:8
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:27
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:10
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.html:27
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.txt:8
 msgid "Mit freundlichen Grüßen"
 msgstr "Best regards"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:29
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:11
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.html:29
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.txt:9
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:29
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:11
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.html:29
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.txt:9
 #, python-format
 msgid "Das Team von %(site_name)s"
 msgstr "The team of %(site_name)s"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.html:31
-#: darmstadt_termine/templates/darmstadt_termine/email/activation_email_body.txt:13
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.html:31
+#: .\darmstadt_termine\templates\darmstadt_termine\email\activation_email_body.txt:13
 msgid ""
 "Sollten Sie diese E-Mail nicht angefordert haben, können Sie diese einfach "
 "ignorieren."
 msgstr "If you haven't requested this email, you can simply ignore it."
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:27
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.txt:2
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:27
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.txt:2
 #, python-format
 msgid "Es gibt %(appointments_count)s neue Termine bei der Stadt Darmstadt!"
 msgstr ""
 "There are %(appointments_count)s new appointments at the city of Darmstadt!"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:28
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.txt:4
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:28
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.txt:4
 msgid "Liste der Termine nach Anliegen sortiert:"
 msgstr "List of appointments sorted by type:"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:42
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:32
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:42
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:32
 msgid "Verfügbare Zeiten"
 msgstr "Available times"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:66
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.txt:15
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:66
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.txt:15
 msgid ""
 "Wenn Sie einen Termin vereinbaren möchten, folgen Sie bitte diesem Link:"
 msgstr "If you want to book an appointment, please follow this link:"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.html:75
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.txt:18
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.html:75
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.txt:18
 msgid "Diese E-Mail wurde automatisch generiert."
 msgstr "This was generated automatically."
 
-#: darmstadt_termine/templates/darmstadt_termine/email/notification_email_body.txt:10
+#: .\darmstadt_termine\templates\darmstadt_termine\email\notification_email_body.txt:10
 msgid "Anzahl der Termine:"
 msgstr "Number of appointments:"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.html:14
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.txt:4
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.html:14
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.txt:4
 msgid ""
 "um einen neuen Zugangslink für Ihre Benachrichtigung zu erhalten, klicken "
 "Sie bitte auf folgenden Zurücksetzlink:"
@@ -291,30 +295,30 @@ msgstr ""
 "to get a new access link for your notification, please click on the "
 "following reset link:"
 
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.html:31
-#: darmstadt_termine/templates/darmstadt_termine/email/reset_email_body.txt:11
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.html:31
+#: .\darmstadt_termine\templates\darmstadt_termine\email\reset_email_body.txt:11
 msgid ""
 "Sollten Sie keine Zurücksetzung angefordert haben, können Sie diese E-Mail "
 "ignorieren."
 msgstr "If you haven't requested a reset, you can ignore this email."
 
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:2
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:2
 msgid "Aktuell verfügbare Termine:"
 msgstr "Currently available appointments:"
 
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:57
-#: darmstadt_termine/templates/darmstadt_termine/include/current_appointments.html:63
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:57
+#: .\darmstadt_termine\templates\darmstadt_termine\include\current_appointments.html:63
 msgid "Keine Termine verfügbar."
 msgstr "No appointments available."
 
-#: darmstadt_termine/templates/darmstadt_termine/include/delete_url.html:3
-#: darmstadt_termine/templates/darmstadt_termine/include/delete_url.txt:2
+#: .\darmstadt_termine\templates\darmstadt_termine\include\delete_url.html:3
+#: .\darmstadt_termine\templates\darmstadt_termine\include\delete_url.txt:2
 msgid ""
 "Mit folgendem Link können Sie sich von weiteren Benachrichtigungen abmelden:"
 msgstr ""
 "You can use the following link to unsubscribe from further notifications:"
 
-#: darmstadt_termine/templates/darmstadt_termine/include/edit_url.html:3
+#: .\darmstadt_termine\templates\darmstadt_termine\include\edit_url.html:3
 msgid ""
 "Unter folgendem Link können Sie einstellen für welche Termine Sie "
 "Benachrichtigungen erhalten:"
@@ -322,11 +326,11 @@ msgstr ""
 "With the following link you can select for which appointments you will "
 "receive notifications:"
 
-#: darmstadt_termine/templates/darmstadt_termine/include/edit_url.html:12
+#: .\darmstadt_termine\templates\darmstadt_termine\include\edit_url.html:12
 msgid "Alternativ können Sie folgenden Token nutzen:"
 msgstr "Alternatively you can use the following token:"
 
-#: darmstadt_termine/templates/darmstadt_termine/include/edit_url.html:16
+#: .\darmstadt_termine\templates\darmstadt_termine\include\edit_url.html:16
 msgid ""
 "ACHTUNG: Bitte den Link oder Token kopieren und speichern! Dieser Link/Token "
 "ist nur jetzt verfügbar!"
@@ -334,102 +338,103 @@ msgstr ""
 "WARNING: Please copy and save the link or token! This link/token is only "
 "available now!"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:5
-#: darmstadt_termine/templates/darmstadt_termine/index.html:8
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:5
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:8
 msgid "Termintracker für Termine der Stadt Darmstadt"
 msgstr "Appointment tracker for appointments in the city of Darmstadt"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:12
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:12
 msgid "Registrieren um Benachrichtigungen zu neuen Terminen zu erhalten:"
 msgstr "Register to receive notifications about new appointments:"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:13
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:13
 msgid "Jetzt Registrieren"
 msgstr "Register now"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:16
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:16
 msgid "Bereits registrierte Benachrichtigungen bearbeiten:"
 msgstr "Edit already registered notifications:"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:20
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:20
 msgid "Zu den Einstellungen"
 msgstr "Go to settings"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:23
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:23
 msgid "Token vergessen?"
 msgstr "Forgot token?"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:23
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:23
 msgid "Neuen Token anfordern"
 msgstr "Request new token"
 
-#: darmstadt_termine/templates/darmstadt_termine/index.html:29
+#: .\darmstadt_termine\templates\darmstadt_termine\index.html:29
 msgid "Hier kommen bald Statistiken über verfügbare Termine hin."
 msgstr ""
 "Soon there will be a statistic about the available appointments on this page."
 
-#: darmstadt_termine/templates/darmstadt_termine/register.html:9
+#: .\darmstadt_termine\templates\darmstadt_termine\register.html:9
 msgid "Registrieren"
 msgstr "Register"
 
-#: darmstadt_termine/templates/darmstadt_termine/reset.html:9
+#: .\darmstadt_termine\templates\darmstadt_termine\reset.html:9
 msgid "Zurücksetzen"
 msgstr "Reset"
 
-#: darmstadt_termine/templates/darmstadt_termine/reset_complete.html:5
+#: .\darmstadt_termine\templates\darmstadt_termine\reset_complete.html:5
 msgid "Ihre Benachrichtigung wurde erfolgreich zurückgesetzt!"
 msgstr "Your notification has been successfully reset!"
 
-#: darmstadt_termine/templatetags/notification_tags.py:21
+#: .\darmstadt_termine\templatetags\notification_tags.py:21
 #, python-format
 msgid "%(days)s Tag"
 msgid_plural "%(days)s Tage"
 msgstr[0] "%(days)s day"
 msgstr[1] "%(days)s days"
 
-#: darmstadt_termine/templatetags/notification_tags.py:24
+#: .\darmstadt_termine\templatetags\notification_tags.py:24
 #, python-format
 msgid "%(hours)s Stunde"
 msgid_plural "%(hours)s Stunden"
 msgstr[0] "%(hours)s hour"
 msgstr[1] "%(hours)s hours"
 
-#: darmstadt_termine/templatetags/notification_tags.py:28
+#: .\darmstadt_termine\templatetags\notification_tags.py:28
 #, python-format
 msgid "%(minutes)s Minute"
 msgid_plural "%(minutes)s Minuten"
 msgstr[0] "%(minutes)s minute"
 msgstr[1] "%(minutes)s minutes"
 
-#: darmstadt_termine/utils/email.py:54
+#: .\darmstadt_termine\utils\email.py:54
 msgid "Neue Termine für das Bürgerbüro Darmstadt verfügbar!"
 msgstr "New appointments for the Darmstadt citizen office available!"
 
-#: darmstadt_termine/views.py:42 darmstadt_termine/views.py:118
-#: darmstadt_termine/views.py:161
+#: .\darmstadt_termine\views.py:40 .\darmstadt_termine\views.py:116
+#: .\darmstadt_termine\views.py:159
 msgid "Keine Benachrichtigung gefunden."
 msgstr "No notification found."
 
-#: darmstadt_termine/views.py:101
-#, python-format
-msgid "Eine E-Mail mit einem Link zur Aktivierung wurde an %(email)s gesendet."
-msgstr "An activation link has been sent to %(email)s."
+#: .\darmstadt_termine\views.py:99
+msgid ""
+"Eine E-Mail mit einem Link zur Aktivierung wurde an %(email)s gesendet. "
+"Bitte auch den Spam-Ordner überprüfen."
+msgstr "An activation link has been sent to %(email)s. Please also check the spam folder."
 
-#: darmstadt_termine/views.py:125
+#: .\darmstadt_termine\views.py:123
 msgid "Benachrichtigung bearbeitet"
 msgstr "Notification edited"
 
-#: darmstadt_termine/views.py:140 darmstadt_termine/views.py:166
-#: darmstadt_termine/views.py:199
+#: .\darmstadt_termine\views.py:138 .\darmstadt_termine\views.py:164
+#: .\darmstadt_termine\views.py:197
 msgid "Token ungültig."
 msgstr "Token invalid."
 
-#: darmstadt_termine/views.py:172
+#: .\darmstadt_termine\views.py:170
 #, python-format
 msgid "Benachrichtigung für %(email)s erfolgreich gelöscht!"
 msgstr "Notification for %(email)s successfully deleted!"
 
-#: darmstadt_termine/views.py:186
+#: .\darmstadt_termine\views.py:184
 msgid "Ihnen wurde eine E-Mail zum zurücksetzen des Zugangs geschickt"
 msgstr "An email has been sent to you to reset your access"
 
