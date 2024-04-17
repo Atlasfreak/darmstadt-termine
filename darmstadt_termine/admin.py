@@ -38,7 +38,12 @@ class NotificationAdmin(admin.ModelAdmin):
     )
     list_filter = ("creation_date", "last_sent", "active")
     autocomplete_fields = ("appointment_type",)
-    actions = ["activate_action", "deactivate_action"]
+    actions = [
+        "activate_action",
+        "deactivate_action",
+        "confirm_action",
+        "unconfirm_action",
+    ]
 
     def activate_action(self, request, queryset):
         updated_rows = queryset.update(active=True)
@@ -51,6 +56,22 @@ class NotificationAdmin(admin.ModelAdmin):
         self.message_user(request, f"{updated_rows} Benachrichtigungen deaktiviert.")
 
     deactivate_action.short_description = "Benachrichtigungen deaktivieren"
+
+    def confirm_action(self, request, queryset):
+        updated_rows = queryset.update(confirmed=True)
+        self.message_user(
+            request, f"{updated_rows} Benachrichtigungs E-Mails bestätigt."
+        )
+
+    confirm_action.short_description = "E-Mails bestätigen"
+
+    def unconfirm_action(self, request, queryset):
+        updated_rows = queryset.update(confirmed=False)
+        self.message_user(
+            request, f"{updated_rows} Benachrichtigungs E-Mails deaktiviert."
+        )
+
+    unconfirm_action.short_description = "E-Mails deaktivieren"
 
 
 @admin.register(AppointmentType)
