@@ -141,6 +141,9 @@ class NotificationResetForm(forms.Form):
         except Notification.DoesNotExist:
             return
 
+        if not notification.confirmed:
+            return
+
         context = {
             "domain": domain,
             "site_name": site_name,

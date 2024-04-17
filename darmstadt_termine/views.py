@@ -1,5 +1,3 @@
-import re
-
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.forms import ValidationError
@@ -141,7 +139,7 @@ def activate_notification(request: HttpRequest, idb64: str, token: str):
 
     unused, domain = get_site_name_domain(request)
 
-    notification.active = True
+    notification.confirmed = notification.active = True
     notification.save()
 
     return render(

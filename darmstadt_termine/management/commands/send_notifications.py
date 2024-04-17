@@ -33,7 +33,9 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> None:
         notifications = Notification.objects.filter(
-            last_sent__lt=timezone.now() - F("minimum_waittime"), active=True
+            last_sent__lt=timezone.now() - F("minimum_waittime"),
+            active=True,
+            confirmed=True,
         ).prefetch_related(
             Prefetch(
                 "appointment_type",
