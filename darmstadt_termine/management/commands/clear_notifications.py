@@ -7,7 +7,7 @@ from ...conf import settings
 from ...models import Notification
 
 
-class Command(BaseCommand()):
+class Command(BaseCommand):
     help = "Clears all unconfirmed notifications"
 
     def handle(self, *args, **options):
@@ -15,6 +15,6 @@ class Command(BaseCommand()):
             confirmed=False,
             creation_date__lt=timezone.now()
             - timedelta(
-                seconds=settings.DARMSTADT_TERMINE_NOTIFICATION_CONFIRMATION_TIMEOUT
+                seconds=settings.DARMSTADT_TERMINE_DELETE_UNCONFIRMED_NOTIFICATIONS_AFTER
             ),
         ).delete()
