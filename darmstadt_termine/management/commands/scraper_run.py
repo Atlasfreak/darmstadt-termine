@@ -1,6 +1,4 @@
 import asyncio
-import re
-from cProfile import Profile
 
 from django.core.management.base import BaseCommand
 
