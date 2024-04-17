@@ -87,6 +87,7 @@ class Notification(models.Model):
         ),
     )
     active = models.BooleanField(_("Aktiviert"), default=False)
+    confirmed = models.BooleanField(_("Bestätigt"), default=False)
 
     class Meta:
         verbose_name = _("Benachrichtigung")

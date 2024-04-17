@@ -34,6 +34,7 @@ class NotificationAdmin(admin.ModelAdmin):
         "last_sent",
         "minimum_waittime",
         "active",
+        "confirmed",
     )
     list_filter = ("creation_date", "last_sent", "active")
     autocomplete_fields = ("appointment_type",)
