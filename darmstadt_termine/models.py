@@ -17,10 +17,11 @@ class Appointment(models.Model):
     start_time = models.TimeField(verbose_name=_("Startzeit"))
     end_time = models.TimeField(verbose_name=_("Endzeit"))
     date = models.DateField(verbose_name=_("Datum"))
-    appointment_type = models.ManyToManyField(
+    appointment_type = models.ForeignKey(
         "AppointmentType",
+        verbose_name=_("Termintyp"),
+        on_delete=models.CASCADE,
         related_name="appointments",
-        verbose_name=_("Termine"),
     )
     location = models.ForeignKey(
         "Location",
@@ -31,7 +32,7 @@ class Appointment(models.Model):
     )
 
     class Meta:
-        unique_together = ["start_time", "end_time", "date", "creation_date"]
+        # unique_together = ["start_time", "end_time", "date", "creation_date"]
         verbose_name = _("Termin")
         verbose_name_plural = _("Termine")
 
