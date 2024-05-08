@@ -15,14 +15,14 @@ from .models import (
 class AppointmentAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     list_display = (
-        "creation_date",
         "start_time",
         "end_time",
         "date",
         "location",
+        "appointment_type",
     )
-    list_filter = ("creation_date", "date")
-    autocomplete_fields = ("appointment_type",)
+    list_filter = ("date", "location", "appointment_type", "start_time", "end_time")
+    autocomplete_fields = ("appointment_type", "location")
 
 
 @admin.register(Notification)
