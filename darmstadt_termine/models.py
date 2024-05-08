@@ -14,6 +14,11 @@ class Appointment(models.Model):
     creation_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Erstellungsdatum")
     )
+    scraper_run = models.ManyToManyField(
+        "ScraperRun",
+        verbose_name=_("Scraperläufe"),
+        related_name="appointments",
+    )
     start_time = models.TimeField(verbose_name=_("Startzeit"))
     end_time = models.TimeField(verbose_name=_("Endzeit"))
     date = models.DateField(verbose_name=_("Datum"))
