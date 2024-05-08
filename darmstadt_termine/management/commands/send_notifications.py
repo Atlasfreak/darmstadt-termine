@@ -53,13 +53,11 @@ class Command(BaseCommand):
 
         sent_notifications = []
         try:
-            last_scraper_run = ScraperRun.objects.latest("start_time")
+            last_scraper_run = ScraperRun.objects.prefetch_related(
+                "appointments"
+            ).latest("start_time")
             last_found_appointments = set(
-                Appointment.objects.filter(
-                    creation_date__gte=last_scraper_run.start_time,
-                    creation_date__lte=last_scraper_run.end_time,
-                    *APPOINTMENT_TIME_FILTER
-                )
+                last_scraper_run.appointments.filter(*APPOINTMENT_TIME_FILTER)
                 .values_list(
                     "start_time",
                     "end_time",
@@ -74,13 +72,11 @@ class Command(BaseCommand):
             return
 
         try:
-            second_last_scraper_run = ScraperRun.objects.order_by("-start_time")[1]
+            second_last_scraper_run = ScraperRun.objects.prefetch_related(
+                "appointments"
+            ).order_by("-start_time")[1]
             second_last_found_appointments = set(
-                Appointment.objects.filter(
-                    creation_date__gte=second_last_scraper_run.start_time,
-                    creation_date__lte=second_last_scraper_run.end_time,
-                    *APPOINTMENT_TIME_FILTER
-                )
+                second_last_scraper_run.appointments.filter(*APPOINTMENT_TIME_FILTER)
                 .values_list(
                     "start_time",
                     "end_time",

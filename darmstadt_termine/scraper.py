@@ -5,10 +5,7 @@ from typing import Coroutine
 import httpx
 from asgiref.sync import sync_to_async
 from bs4 import BeautifulSoup, Doctype, SoupStrainer
-from bs4.diagnose import diagnose
 from django.core.mail import mail_admins
-from django.db.models import Q
-from django.utils import timezone
 
 from .models import (
     Appointment,
@@ -31,6 +28,7 @@ async def add_appointment(
     date: datetime.date,
     appointment_type: AppointmentType,
     location: Location,
+    scraper_run: ScraperRun,
 ):
     """
     add_appointment writes the appointment to the database
@@ -44,20 +42,26 @@ async def add_appointment(
         appointment_type (AppointmentType): the type of the appointment
     """
     appointment, _ = await Appointment.objects.filter(
-        Q(creation_date__gt=timezone.now() - datetime.timedelta(seconds=40))
+        start_time=start_time,
+        end_time=end_time,
+        date=date,
+        location=location,
+        appointment_type=appointment_type,
     ).aget_or_create(
         start_time=make_aware_no_error(start_time),
         end_time=make_aware_no_error(end_time),
         date=date,
         location=location,
+        appointment_type=appointment_type,
     )
-    await appointment.appointment_type.aadd(appointment_type)
+    await appointment.scraper_run.aadd(scraper_run)
 
 
 async def fetch_appointment(
     client: httpx.AsyncClient,
     appointment_category: int,
     appointment_type: AppointmentType,
+    scraper_run: ScraperRun,
 ) -> list[Coroutine]:
     async for location in appointment_type.location.all():
         request = await client.post(
@@ -113,13 +117,17 @@ async def fetch_appointment(
                     date=datetime.datetime.strptime(date, "%Y%m%d").date(),
                     appointment_type=appointment_type,
                     location=location,
+                    scraper_run=scraper_run,
                 )
             )
     return tasks
 
 
 async def fetch_appointments(
-    department_index: int, appointment_category: int, appointment_types
+    department_index: int,
+    appointment_category: int,
+    appointment_types,
+    scraper_run: ScraperRun,
 ):
     """
     fetch_appointments looks for all available appointments of a specific type
@@ -144,7 +152,9 @@ async def fetch_appointments(
         tasks = []
         async for appointment_type in appointment_types.aiterator():
             tasks.extend(
-                await fetch_appointment(client, appointment_category, appointment_type)
+                await fetch_appointment(
+                    client, appointment_category, appointment_type, scraper_run
+                )
             )
 
         await asyncio.gather(*tasks)
@@ -165,6 +175,7 @@ async def fetch_all_types():
                 appointment_category.department.index,
                 appointment_category.index,
                 appointment_category.types.filter(active=True),
+                scraper_run,
             )
             async for appointment_category in appointment_categories
         ]

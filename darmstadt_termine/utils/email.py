@@ -120,19 +120,18 @@ def create_notification_email_message_for_new_appointments(
         )
 
     try:
-        last_sent_scraper_run = ScraperRun.objects.filter(
-            end_time__lt=notification.last_sent
-        ).latest("start_time")
+        last_sent_scraper_run = (
+            ScraperRun.objects.filter(end_time__lt=notification.last_sent)
+            .prefetch_related("appointments")
+            .latest("start_time")
+        )
 
         if last_sent_scraper_run == last_scraper_run:
             return None
 
         last_sent_appointments = set(
-            Appointment.objects.filter(
-                creation_date__gte=last_sent_scraper_run.start_time,
-                creation_date__lte=last_sent_scraper_run.end_time,
-                appointment_type__in=appointment_types,
-                *APPOINTMENT_TIME_FILTER
+            last_sent_scraper_run.appointments.filter(
+                appointment_type__in=appointment_types, *APPOINTMENT_TIME_FILTER
             )
             .values_list(
                 "start_time",

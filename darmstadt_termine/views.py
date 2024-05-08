@@ -46,9 +46,7 @@ def index(request: HttpRequest) -> HttpResponse:
         last_scraper_run = ScraperRun.objects.latest("start_time")
 
         last_found_appointments = list(
-            Appointment.objects.filter(
-                creation_date__gte=last_scraper_run.start_time,
-                creation_date__lte=last_scraper_run.end_time,
+            last_scraper_run.appointments.filter(
                 *APPOINTMENT_TIME_FILTER,
             )
             .order_by("appointment_type__appointment_category", "date", "start_time")
