@@ -6,7 +6,7 @@ from django.db.models import Count
 
 def move_appointment_types(apps, schema_editor):
     Appointment = apps.get_model("darmstadt_termine", "Appointment")
-    appointments = Appointment.objects.all().prefetch_related("appointment_types")
+    appointments = Appointment.objects.all()
     Appointment._meta.get_field("creation_date").auto_now_add = False
     for appointment in appointments:
         Appointment.objects.bulk_create(
