@@ -11,9 +11,6 @@ class Appointment(models.Model):
     This is a many to many relation in order to group multiple appointment types with the same timeframe together.
     """
 
-    creation_date = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Erstellungsdatum")
-    )
     scraper_run = models.ManyToManyField(
         "ScraperRun",
         verbose_name=_("Scraperläufe"),
