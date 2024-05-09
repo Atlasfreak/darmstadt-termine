@@ -1,6 +1,7 @@
 {% extends "darmstadt_termine/base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block title %}
     {% translate "Termintracker für Termine der Stadt Darmstadt" %}
 {% endblock title %}
@@ -27,4 +28,12 @@
     <hr>
     {% include "darmstadt_termine/include/current_appointments.html" with appointment_types_list=appointment_types_list %}
     <p>{% translate "Hier kommen bald Statistiken über verfügbare Termine hin." %}</p>
+    <div>
+        <canvas id="first_time_appointments_chart"></canvas>
+    </div>
 {% endblock content %}
+{% block javascript %}
+    {{ first_time_appointments|json_script:"first_time_appointments" }}>
+    <script src="{% static "darmstadt_termine/js/chart.umd.min.js" %}"></script>
+    <script src="{% static "darmstadt_termine/js/stats.js" %}"></script>
+{% endblock javascript %}
