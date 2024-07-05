@@ -33,7 +33,7 @@
     </div>
 {% endblock content %}
 {% block javascript %}
-    {{ first_time_appointments|json_script:"first_time_appointments" }}>
+    {% comment %} {{ first_time_appointments|json_script:"first_time_appointments" }}
     <script src="{% static "darmstadt_termine/js/chart.umd.min.js" %}"></script>
-    <script src="{% static "darmstadt_termine/js/stats.js" %}"></script>
+    <script src="{% static "darmstadt_termine/js/stats.js" %}"></script> {% endcomment %}
 {% endblock javascript %}

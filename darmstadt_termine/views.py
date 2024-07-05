@@ -69,26 +69,26 @@ def index(request: HttpRequest) -> HttpResponse:
     except ScraperRun.DoesNotExist:
         appointment_types_list = []
 
-    first_time_appointments = (
-        Appointment.objects.values("start_time", "end_time", "date")
-        .annotate(
-            first_scraper_run=ScraperRun.objects.filter(appointments__in=OuterRef("pk"))
-            .values("pk")
-            .order_by("start_time")[:1]
-        )
-        .annotate(
-            earliest_time_found=TruncMinute(
-                TruncTime(
-                    Subquery(
-                        ScraperRun.objects.values("start_time")
-                        .filter(pk=OuterRef("first_scraper_run"))
-                        .order_by("start_time")[:1]
-                    )
-                )
-            )
-        )
-        .distinct()
-    )
+    # first_time_appointments = (
+    #     Appointment.objects.values("start_time", "end_time", "date")
+    #     .annotate(
+    #         first_scraper_run=ScraperRun.objects.filter(appointments__in=OuterRef("pk"))
+    #         .values("pk")
+    #         .order_by("start_time")[:1]
+    #     )
+    #     .annotate(
+    #         earliest_time_found=TruncMinute(
+    #             TruncTime(
+    #                 Subquery(
+    #                     ScraperRun.objects.values("start_time")
+    #                     .filter(pk=OuterRef("first_scraper_run"))
+    #                     .order_by("start_time")[:1]
+    #                 )
+    #             )
+    #         )
+    #     )
+    #     .distinct()
+    # )
 
     if request.method == "POST":
         edit_login_form = NotificationEditLoginForm(request.POST)
@@ -105,7 +105,6 @@ def index(request: HttpRequest) -> HttpResponse:
             "appointment_types_list": appointment_types_list,
             "edit_login_form": edit_login_form,
             "register_form": NotificationRegisterForm(),
-            "first_time_appointments": list(first_time_appointments),
         },
     )
 
