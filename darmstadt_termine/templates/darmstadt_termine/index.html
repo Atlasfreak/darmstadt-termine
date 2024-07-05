@@ -28,9 +28,9 @@
     <hr>
     {% include "darmstadt_termine/include/current_appointments.html" with appointment_types_list=appointment_types_list %}
     <p>{% translate "Hier kommen bald Statistiken über verfügbare Termine hin." %}</p>
-    <div>
+    {% comment %} <div>
         <canvas id="first_time_appointments_chart"></canvas>
-    </div>
+    </div> {% endcomment %}
 {% endblock content %}
 {% block javascript %}
     {% comment %} {{ first_time_appointments|json_script:"first_time_appointments" }}
